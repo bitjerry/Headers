@@ -121,7 +121,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../null/nvm/v16.13.0/node_modules/npm" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_interpreter_path" value="node" />
@@ -129,7 +129,7 @@
     <property name="project.structure.last.edited" value="模块" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.24390244" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RebelAgentSelection">
     <selection>jr</selection>
@@ -263,9 +263,9 @@
       <list>
         <item itemvalue="Gradle.Header [clean]" />
         <item itemvalue="Gradle.Header [jar]" />
+        <item itemvalue="Gradle.Header [build]" />
         <item itemvalue="应用程序.test" />
         <item itemvalue="应用程序.Headers" />
-        <item itemvalue="Gradle.Header [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -281,6 +281,7 @@
       <workItem from="1640748782348" duration="29347000" />
       <workItem from="1640852008969" duration="23552000" />
       <workItem from="1640928377779" duration="7653000" />
+      <workItem from="1645363816260" duration="3059000" />
     </task>
     <servers />
   </component>

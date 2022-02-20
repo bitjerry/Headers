@@ -1,5 +1,8 @@
-//@Time: 2021/12/28 18:38
-//@Author: Mr.lin
+/**
+ *
+ * @Time: 2021/12/28 18:38
+ * @Author: Mr.lin
+ */
 package control;
 
 import com.intellij.openapi.actionSystem.AnAction;
@@ -10,9 +13,7 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.Messages;
 import org.jetbrains.annotations.NotNull;
-
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -40,24 +41,20 @@ public abstract class Controller extends AnAction {
         int start = primaryCaret.getSelectionStart();
         int end = primaryCaret.getSelectionEnd();
         String text;
-        if (end - start > 0) text = primaryCaret.getSelectedText();
-        else text = getClipboardText();
+        if (end - start > 0) {
+            text = primaryCaret.getSelectedText();
+        } else {
+            text = getClipboardText();
+        }
         if (text != null) {
             String padding = genPadding(primaryCaret.getSelectionStartPosition().column);
             String result = result(text, padding);
             writeMessages(start, end, result);
         }
-        else showWarnInfo();
     }
 
     public static String genPadding(int pads){
         return pads > 0 ? String.format("%"+pads+"s", " ") : "";
-    }
-
-    public abstract String result(String text, String padding);
-
-    public static void showWarnInfo(){
-        Messages.showWarningDialog("Unknown format", "Info");
     }
 
     public void writeMessages(int start, int end, String result){
@@ -65,7 +62,6 @@ public abstract class Controller extends AnAction {
             if (result != null){
                 document.replaceString(start, end, result);
             }
-            else showWarnInfo();
         });
     }
 
@@ -84,4 +80,12 @@ public abstract class Controller extends AnAction {
         }
         return text;
     }
+
+    /**
+     * Format text
+     * @param text Get test to format
+     * @param padding Set padding characters
+     * @return Formatted text
+     */
+    public abstract String result(String text, String padding);
 }
