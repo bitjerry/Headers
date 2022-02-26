@@ -1,7 +1,7 @@
 # Headers
 
-[![CN](https://img.shields.io/badge/Language-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-red)](https://github.com/bitjerry/base/blob/main/README.zh-CN.md)
-[![APM](https://img.shields.io/badge/license-MIT-2345.svg)](https://github.com/bitjerry/base)
+[![CN](https://img.shields.io/badge/Language-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-red)](https://github.com/bitjerry/Headers/blob/main/README.zh-CN.md)
+[![APM](https://img.shields.io/badge/license-MIT-2345.svg)](https://github.com/bitjerry/Headers)
 >**This tool can help Python programmers quickly process browser message headers<br>
 Pychram plugin https://plugins.jetbrains.com/plugin/18299**
 
