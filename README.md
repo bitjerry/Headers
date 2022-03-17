@@ -5,7 +5,7 @@
 >**This tool can help Python programmers quickly process browser message headers<br>
 Pychram plugin https://plugins.jetbrains.com/plugin/18299**
 
-## _demonstration_
+## _Demonstration_
 
 
 ## _Features_
@@ -13,10 +13,10 @@ Pychram plugin https://plugins.jetbrains.com/plugin/18299**
 1. ***Help you quickly format the headers or cookies text copied from browser to Python dictionary format***
 2. ***Compatible with Google Chrome, Firefox, fiddler, or other possible format text***
 
-## _Usag_
+## _Usage_
 
 1. ***Copy the header in the browser. When you paste it in pychram, the plugin automatically formats the python dictionary form and paste it into the cursor selection area***
-2. ***$\color{#54FF9F}{(Recommend)}$  You can choose to use shortcut keys, and only need to set up in pychram Settings > Keymap > Plugins. Note: default shortcut keys may not be available***
+2. ***(**Recommend**)  You can choose to use shortcut keys, and only need to set up in pychram Settings > Keymap > Plugins. Note: default shortcut keys may not be available***
 3. ***Right click in the code edit area. You can see the options added to the plugin. Click headers or cookies to automatically format the corresponding content***
 
 ## _Note_
