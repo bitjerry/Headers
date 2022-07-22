@@ -1,0 +1,73 @@
+<idea-plugin>
+    <id>su.gov.Header</id>
+    <name>Headers</name>
+    <vendor email="adobe@outlook.my" url="https://www.gov.su">Ghost Corporation</vendor>
+
+    <description><![CDATA[
+      <b>This tool can help Python programmers quickly process browser message headers</b><br>
+    <p>Features:</p>
+    <ul>
+        <li>1. <i>Help you quickly format the Headers, Cookies or Form Data text copied from browser to Python dictionary format</i></li>
+        <li>2. <i>Compatible with Google Chrome, Firefox, fiddler, or other possible format text</i></li>
+    </ul>
+    <p>Usage:</p>
+    <ul>
+        <li>1. <i>Copy the header in the browser. When you paste it in pychram, the plugin automatically formats the python dictionary form and paste it into the cursor selection area</i></li>
+        <li>2. <i><b>(Recommend)</b>You can choose to use shortcut keys, and only need to set up in pychram Settings > Keymap > Plugins. Note: default shortcut keys may not be available</i></li>
+        <li>3. <i>Right click in the code edit area. You can see the options added to the plugin. Click Headers, Cookies or Form Data to automatically format the corresponding content</i></li>
+    </ul>
+      <b>此工具帮助python程序员快速处理浏览器报文信息</b><br>
+      <p>功能:</p>
+      <ul>
+          <li>1. <i>帮助你快速将从浏览器复制出来的headers, cookies或者Form Data文本快速格式化为python的字典格式</i></li>
+          <li>2. <i>兼容谷歌浏览器, 火狐浏览器, fiddler, 以及可能的其它格式文本</i></li>
+      </ul>
+      <p>用法:</p>
+      <ul>
+          <li>1. <i>复制浏览器中的报文头, 当你在pychram中粘贴时, 插件自动帮你格式化为python字典形式, 并粘贴到光标处</i></li>
+          <li>2. <i><b>(推荐)</b>你可以选择使用快捷键, 只需要到pychram的设置->键盘映射->插件中设置即可.注意: 默认的快捷键可能不可用</i></li>
+          <li>3. <i>在代码编辑区右键你可以看到插件添加的选项, 点击headers, cookies或者Form Data能够自动格式化相应的内容</i></li>
+      </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      <b>1.0.0</b><br>
+      <i>Support browser headers or cookies conversion. Include Google Chrome and Firefox</i><br>
+      <i>支持直接从浏览器F12复制的的headers文本与cookies文本格式化为python字典</i><br>
+      <b>1.0.1</b><br>
+      <i>Fixed compatibility issues</i><br>
+      <i>修复了兼容性问题</i><br>
+      <b>1.0.2</b><br>
+      <i>Added format support for FormData and extended the plugin's support for idea</i><br>
+      <i>添加了对FormData的格式化支持, 扩展了插件对idea的支持范围</i><br>
+      <b>1.0.3</b><br>
+      <i>Remove the default shortcut key, and users can set it by themselves</i><br>
+      <i>移除默认快捷键, 用户可以自己设置</i><br>
+    ]]>
+    </change-notes>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
+    <idea-version since-build="180.0"/>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <actions>
+        <group id="format.paste" text="Headers" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Paste"/>
+        </group>
+        <action class="actions.Headers" text="Headers">
+            <add-to-group group-id="format.paste" anchor="last"/>
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift H"/>-->
+        </action>
+        <action class="actions.Cookies" text="Cookies">
+            <add-to-group group-id="format.paste" anchor="last"/>
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>-->
+        </action>
+        <action class="actions.FormData" text="FormData">
+            <add-to-group group-id="format.paste" anchor="last"/>
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift F"/>-->
+        </action>
+    </actions>
+</idea-plugin>
