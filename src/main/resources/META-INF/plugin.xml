@@ -40,6 +40,9 @@
       <b>1.0.2</b><br>
       <i>Added format support for FormData and extended the plugin's support for idea</i><br>
       <i>添加了对FormData的格式化支持, 扩展了插件对idea的支持范围</i><br>
+      <b>1.0.3</b><br>
+      <i>Remove the default shortcut key, and users can set it by themselves</i><br>
+      <i>移除默认快捷键, 用户可以自己设置</i><br>
     ]]>
     </change-notes>
 
@@ -56,15 +59,15 @@
         </group>
         <action class="actions.Headers" text="Headers">
             <add-to-group group-id="format.paste" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift H"/>
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift H"/>-->
         </action>
         <action class="actions.Cookies" text="Cookies">
             <add-to-group group-id="format.paste" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>-->
         </action>
         <action class="actions.FormData" text="FormData">
             <add-to-group group-id="format.paste" anchor="last"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift F"/>
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift F"/>-->
         </action>
     </actions>
 </idea-plugin>
