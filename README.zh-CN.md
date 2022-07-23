@@ -21,7 +21,7 @@
 
 ---
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/headers.gif" alt="screenshots"></p>
-
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/shortcut.png" alt="screenshots"></p>
 
 ### 功能
 
