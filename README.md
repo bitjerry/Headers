@@ -1,14 +1,22 @@
 # Headers
 
+
 ---
 [![Download](https://img.shields.io/jetbrains/plugin/d/18299?style=flat-square)](https://plugins.jetbrains.com/plugin/18299-headers)
 [![Version](https://img.shields.io/jetbrains/plugin/v/18299?style=flat-square)](https://plugins.jetbrains.com/plugin/18299-headers/versions)
 [![Star](https://img.shields.io/jetbrains/plugin/r/stars/18299?label=Headers&style=flat-square)](https://plugins.jetbrains.com/plugin/18299)
-[![APM](https://img.shields.io/badge/license-MIT-2345.svg)](https://github.com/bitjerry/Headers)
+[![APM](https://img.shields.io/github/license/bitjerry/Headers?color=blue&style=flat-square)](./LICENSE)
 
 This tool can help Python programmers quickly process browser message headers  
 
 Read in other languages: English | [简体中文](./README.zh-CN.md)
+
+### Installation
+
+---
+<a href="https://plugins.jetbrains.com/plugin/18299-headers" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/installation_button.svg" height="52" alt="Get from Marketplace" title="Get from Marketplace">
+</a>
 
 ### Demonstration  
 
@@ -33,7 +41,7 @@ Read in other languages: English | [简体中文](./README.zh-CN.md)
 ---
 >*If you want to format the text in the pychram code edit area, choose the mouse directly and format it. If you want to format the code at the paste plate to replace the selection code, do not do it directly, because the text in the default code area has a higher priority. You should first delete it and paste it again.*
 
-### Copyright
+### License
 
 ---
 MIT © [bitjerry](./LICENSE)

@@ -4,11 +4,18 @@
 [![Download](https://img.shields.io/jetbrains/plugin/d/18299?style=flat-square)](https://plugins.jetbrains.com/plugin/18299-headers)
 [![Version](https://img.shields.io/jetbrains/plugin/v/18299?style=flat-square)](https://plugins.jetbrains.com/plugin/18299-headers/versions)
 [![Star](https://img.shields.io/jetbrains/plugin/r/stars/18299?label=Headers&style=flat-square)](https://plugins.jetbrains.com/plugin/18299)
-[![APM](https://img.shields.io/badge/license-MIT-2345.svg)](https://github.com/bitjerry/Headers)  
+[![APM](https://img.shields.io/github/license/bitjerry/Headers?color=blue&style=flat-square)](./LICENSE)
   
-此工具帮助python程序员快速处理浏览器报文信息  
+此工具帮助Python程序员快速处理浏览器报文信息  
   
 使用其他语言阅读：[English](./README.md) | 简体中文
+
+### 安装
+
+---
+<a href="https://plugins.jetbrains.com/plugin/18299-headers" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/installation_button.svg" height="52" alt="Get from Marketplace" title="Get from Marketplace">
+</a>
 
 ### 演示
 
@@ -34,7 +41,7 @@
 ---
 >*如果你希望格式化在pychram代码编辑区的文本, 直接鼠标选择, 格式化即可. 如果你想要格式化在粘贴板处的代码以替换选取代码, 不要直接怎么做, 因为默认代码区的文本优先级更高, 你应该先删除, 再粘贴*
 
-### 版权
+### 许可
 
 ---
 MIT © [bitjerry](./LICENSE)
