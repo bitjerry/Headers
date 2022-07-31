@@ -5,16 +5,13 @@
  */
 package control;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.*;
+import com.intellij.openapi.editor.*;
 import com.intellij.openapi.command.WriteCommandAction;
-import com.intellij.openapi.editor.Caret;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import org.jetbrains.annotations.NotNull;
-import java.awt.*;
+
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -69,13 +66,11 @@ public abstract class Controller extends AnAction {
         String text = null;
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         Transferable contents = clipboard.getContents(null);
-        if (contents != null) {
-            if (contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                try {
-                    text = (String) contents.getTransferData(DataFlavor.stringFlavor);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        if (contents != null && contents.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+            try {
+                text = (String) contents.getTransferData(DataFlavor.stringFlavor);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return text;
