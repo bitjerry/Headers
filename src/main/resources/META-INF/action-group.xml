@@ -1,0 +1,19 @@
+<idea-plugin>
+    <actions>
+        <group id="format.paste" text="Headers" popup="true">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Paste"/>
+        </group>
+        <action class="actions.Headers" text="Headers">
+            <add-to-group group-id="format.paste" anchor="last"/>
+            <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift H"/>-->
+        </action>
+        <action class="actions.Cookies" text="Cookies">
+            <add-to-group group-id="format.paste" anchor="last"/>
+            <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>-->
+        </action>
+        <action class="actions.FormData" text="FormData">
+            <add-to-group group-id="format.paste" anchor="last"/>
+            <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift F"/>-->
+        </action>
+    </actions>
+</idea-plugin>
