@@ -2,8 +2,6 @@
 
 ## [Unreleased]
 
-## [1.0.4] - 2023-11-20
-
 - Fixed confusion of the request head format
 - 修复格式识别混乱
 
@@ -21,9 +19,3 @@
 
 - Support browser headers or cookies conversion. Include Google Chrome and Firefox
 - 支持直接从浏览器F12复制的的headers文本与cookies文本格式化为python字典
-
-[Unreleased]: https://github.com/bitjerry/Headers/compare/v1.0.4...HEAD
-[1.0.4]: https://github.com/bitjerry/Headers/compare/v1.0.3...v1.0.4
-[1.0.3]: https://github.com/bitjerry/Headers/compare/v1.0.2...v1.0.3
-[1.0.2]: https://github.com/bitjerry/Headers/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/bitjerry/Headers/commits/v1.0.1

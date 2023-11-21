@@ -260,6 +260,8 @@ jobs:
             --draft \
             --title "v${{ needs.build.outputs.version }}" \
             --notes "$(cat << 'EOM'
+          ## What's Changed
+
           ${{ needs.build.outputs.changelog }}
           EOM
           )"
