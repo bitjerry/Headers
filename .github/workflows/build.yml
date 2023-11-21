@@ -30,6 +30,7 @@ jobs:
       version: ${{ steps.properties.outputs.version }}
       changelog: ${{ steps.properties.outputs.changelog }}
       pluginVerifierHomeDir: ${{ steps.properties.outputs.pluginVerifierHomeDir }}
+      filename: ${{ steps.properties.outputs.filename }}
     steps:
 
       # Check out current repository
@@ -265,12 +266,12 @@ jobs:
 #          ${{ needs.build.outputs.changelog }}
 #          EOM
 #          )"
-      - name: Prepare Plugin
-        shell: bash
-        run: |
-          cd ${{ github.workspace }}/build/distributions
-          ll -a
-          ls *.zip
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        id: download
+        with:
+          name: ${{needs.build.outputs.filename}}
+
       - name: Create Release Draft
         uses: softprops/action-gh-release@v1
         with:
@@ -281,4 +282,4 @@ jobs:
 
             ${{ needs.build.outputs.changelog }}"
 
-          files: ${{ github.workspace }}/build/distributions/*.zip
+          files: ${{steps.download.outputs.download-path}}

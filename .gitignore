@@ -31,4 +31,5 @@ out/
 src/test/java/*
 src/test/resources/*
 rebel.xml
+*DEV.md
 
