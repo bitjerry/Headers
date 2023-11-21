@@ -265,7 +265,12 @@ jobs:
 #          ${{ needs.build.outputs.changelog }}
 #          EOM
 #          )"
-
+      - name: Prepare Plugin
+        shell: bash
+        run: |
+          cd ${{ github.workspace }}/build/distributions
+          ll -a
+          ls *.zip
       - name: Create Release Draft
         uses: softprops/action-gh-release@v1
         with:
