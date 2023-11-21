@@ -36,9 +36,11 @@ changelog {
     repositoryUrl = properties("pluginRepositoryUrl")
 }
 
-//buildSearchableOptions.enabled = false
-
 tasks {
+
+    buildSearchableOptions {
+        enabled = false
+    }
     withType<JavaCompile> {
         sourceCompatibility = JavaVersion.VERSION_11.toString()
         targetCompatibility = JavaVersion.VERSION_11.toString()
