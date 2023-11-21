@@ -30,7 +30,7 @@ jobs:
       version: ${{ steps.properties.outputs.version }}
       changelog: ${{ steps.properties.outputs.changelog }}
       pluginVerifierHomeDir: ${{ steps.properties.outputs.pluginVerifierHomeDir }}
-      filename: ${{ steps.properties.outputs.filename }}
+      filename: ${{ steps.artifact.outputs.filename }}
     steps:
 
       # Check out current repository
@@ -271,8 +271,6 @@ jobs:
         id: download
         with:
           name: ${{ needs.build.outputs.filename }}
-      - name: Display filename
-        run: echo ${{ needs.build.outputs.filename }}
 
       - name: Create Release Draft
         uses: softprops/action-gh-release@v1
@@ -282,6 +280,6 @@ jobs:
           body: |
             ## What's Changed
 
-            ${{ needs.build.outputs.changelog }}"
+            ${{ needs.build.outputs.changelog }}
 
           files: ${{steps.download.outputs.download-path}}
