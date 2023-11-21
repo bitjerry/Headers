@@ -97,7 +97,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.artifact.outputs.filename }}
-          path: ./build/distributions/content/*.zip
+          path: ./build/distributions/*.zip
 
   #  # Run tests and upload a code coverage report
   #  test:
