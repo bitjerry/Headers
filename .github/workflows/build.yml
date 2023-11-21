@@ -91,8 +91,13 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.artifact.outputs.filename }}
           path: ./build/distributions/content/*/*
+
+      - name: Upload plugin
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.artifact.outputs.filename }}
+          path: ./build/distributions/content/*.zip
 
   #  # Run tests and upload a code coverage report
   #  test:
@@ -286,4 +291,4 @@ jobs:
 
             ${{ needs.build.outputs.changelog }}
 
-          files: ${{steps.download.outputs.download-path}}/*
+          files: ${{steps.download.outputs.download-path}}/*.zip
