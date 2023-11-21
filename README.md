@@ -18,11 +18,13 @@ Read in other languages: English | [简体中文](./README.zh-CN.md)
     <img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/installation_button.svg" height="52" alt="Get from Marketplace" title="Get from Marketplace">
 </a>
 
-### Demonstration  
+### Screenshots 
 
 ---
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/headers.gif" alt="screenshots"></p>
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/shortcut.png" alt="screenshots"></p>
+
+<!-- Plugin description -->
 
 ### Features
 
@@ -40,7 +42,9 @@ Read in other languages: English | [简体中文](./README.zh-CN.md)
 ### Note
 
 ---
->*If you want to format the text in the pychram code edit area, choose the mouse directly and format it. If you want to format the code at the paste plate to replace the selection code, do not do it directly, because the text in the default code area has a higher priority. You should first delete it and paste it again.*
+>*If you want to format the text in the pycharm code edit area, choose the mouse directly and format it. If you want to format the code at the paste plate to replace the selection code, do not do it directly, because the text in the default code area has a higher priority. You should first delete it and paste it again.*
+
+<!-- Plugin description end -->
 
 ### License
 
