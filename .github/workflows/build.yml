@@ -274,7 +274,7 @@ jobs:
           name: ${{ needs.build.outputs.filename }}
 
       - name: Show files
-        run: ll -a ${{steps.download.outputs.download-path}}
+        run: ls -a ${{steps.download.outputs.download-path}}
 
       - name: Create Release Draft
         uses: softprops/action-gh-release@v1
