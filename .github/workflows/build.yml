@@ -274,6 +274,7 @@ jobs:
 
       - name: Create Release Draft
         uses: softprops/action-gh-release@v1
+        run: ll -a ${{steps.download.outputs.download-path}}
         with:
           tag_name: v${{ needs.build.outputs.version }}
           draft: true
