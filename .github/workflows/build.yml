@@ -276,4 +276,4 @@ jobs:
 
             ${{ needs.build.outputs.changelog }}"
 
-          files: ${{ github.workspace }}/build/distributions/content/*/*
+          files: ${{ github.workspace }}/build/distributions/*.zip
