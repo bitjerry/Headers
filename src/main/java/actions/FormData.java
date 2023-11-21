@@ -6,19 +6,30 @@
  */
 package actions;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import control.Controller;
 
-public class FormData extends Controller {
-    public static String getFormData(String formdata, String padding){
-        return formdata.replaceAll("\"","\\\\\"")
-                .replaceAll("[\r\n& ]*((?:\\\\\")?:?[\\s\\S]*?)[\r\n:=] *([^&\r\n]*)",  padding + "\"$1\": \"$2\",\n")
-                .replaceAll("\\\\\",\"", "\\\\\\\"\"")
-                .replaceAll(padding+"([\\s\\S]*),\n","$1")
-                .replaceAll(",\n"+padding+"\"\": \"\"","");
-    }
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
+public class FormData extends Controller {
+    private static void parseFormData(String formData, HashMap<String, String> formDataMap){
+        String[] formDataItems = formData.split("\\s*&\\s*");
+        for (String formDataItem : formDataItems){
+            String[] formDataKV = formDataItem.split("\\s*=\\s*", 2);
+            if (formDataKV.length != 2){
+                return;
+            }
+            formDataMap.put(formDataKV[0], formDataKV[1]);
+        }
+
+    }
     @Override
-    public String result(String text, String padding) {
-        return getFormData(text,padding);
+    public String parse(String text) throws JsonProcessingException {
+        LinkedHashMap<String, String> formDataMap = new LinkedHashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        parseFormData(text, formDataMap);
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(formDataMap);
     }
 }

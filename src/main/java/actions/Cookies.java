@@ -6,20 +6,32 @@
  */
 package actions;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import control.Controller;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class Cookies extends Controller {
 
-    public static String getCookies(String cookies, String padding){
-        return cookies.replaceAll("\"","\\\\\"")
-                .replaceAll("[\r\n; ]*([\\s\\S]*?)[=\t:] *([^;\r\n]*)",  padding + "\"$1\": \"$2\",\n")
-                .replaceAll("\\\\\",\"", "\\\\\\\"\"")
-                .replaceAll(padding + "([\\s\\S]*),\n","$1")
-                .replaceAll(",\n"+padding+"\"\": \"\"","");
+    private static void parseCookie(String cookie, HashMap<String, String> cookieMap){
+        String[] cookieItems = cookie.split("\\s*;\\s*");
+        for (String cookieItem : cookieItems){
+            String[] cookieKV = cookieItem.split("\\s*=\\s*", 2);
+            if (cookieKV.length != 2){
+                return;
+            }
+            cookieMap.put(cookieKV[0], cookieKV[1]);
+        }
+
     }
 
     @Override
-    public String result(String text, String padding) {
-        return getCookies(text, padding);
+    public String parse(String text) throws JsonProcessingException {
+        LinkedHashMap<String, String> cookieMap = new LinkedHashMap<>();
+        parseCookie(text, cookieMap);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(cookieMap);
     }
 }
