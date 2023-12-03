@@ -9,7 +9,13 @@ on:
    types: [prereleased, released, published]
 
 jobs:
-
+  prJob:    
+    name: Print info
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print GitHub event action
+        run: |
+          echo "${{ github.event.action }}"
   # Prepare and publish the plugin to JetBrains Marketplace repository
   release:
     name: Publish Plugin
