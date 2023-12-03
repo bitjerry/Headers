@@ -6,16 +6,9 @@ name: Release
 on:
   release:
     # types: [published]
-   types: [prereleased, released, published]
+   types: [prereleased, published]
 
 jobs:
-  prJob:    
-    name: Print info
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print GitHub event action
-        run: |
-          echo "${{ github.event.action }}"
   # Prepare and publish the plugin to JetBrains Marketplace repository
   release:
     name: Publish Plugin
@@ -24,7 +17,10 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-
+      # Check event
+      - name: Print GitHub event action
+        run: |
+          echo "${{ github.event.action }}"
       # Check out current repository
       - name: Fetch Sources
         uses: actions/checkout@v4
