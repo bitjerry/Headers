@@ -20,10 +20,6 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      # Check event
-      - name: Print GitHub event action
-        run: |
-          echo "${{ github.event.action }}"
 
       # Check out current repository
       - name: Fetch Sources
