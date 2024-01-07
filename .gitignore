@@ -1,4 +1,4 @@
-### Java template
+### Java transformScriptModel
 # Compiled class file
 *.class
 
@@ -31,5 +31,6 @@ out/
 src/test/java/*
 src/test/resources/*
 rebel.xml
+*V3.xml
 *DEV.md
 

@@ -4,17 +4,21 @@
  * @author Mr.lin
  * @File: Headers.java
  */
-package actions;
+package su.gov.headers.actions;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import control.Controller;
+import com.intellij.openapi.diagnostic.Logger;
+import su.gov.headers.HeadersBundle;
+import su.gov.headers.utils.NotificationUtils;
+import su.gov.headers.transform.TransformAction;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class Headers extends Controller {
+public class HeaderAction extends TransformAction {
 
+    private static final Logger LOGGER = Logger.getInstance(HeaderAction.class);
 
     private static void parseHeader(String head, HashMap<String, String> headMap){
         String key;
@@ -54,11 +58,17 @@ public class Headers extends Controller {
     }
 
     @Override
-    public String parse(String text) throws JsonProcessingException {
+    public String transform(String text) {
         LinkedHashMap<String, String> headers = new LinkedHashMap<>();
         parseHeader(text, headers);
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(headers);
+        try {
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(headers);
+        }catch (JsonProcessingException e){
+            LOGGER.error("Transform request headers failure", e);
+            NotificationUtils.error(HeadersBundle.message("error.transform.header", e.getMessage()));
+        }
+        return null;
     }
 
 }

@@ -19,8 +19,10 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
+    implementation("org.openjdk.nashorn:nashorn-core:15.4")
+//    testImplementation("com.squareup.okhttp3:okhttp:4.12.0")
+//    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -29,7 +31,9 @@ intellij {
     version = properties("platformVersion")
     type = properties("platformType")
     updateSinceUntilBuild = false
+    plugins = properties("platformPlugins").get().split(',').map(String::trim).filter(String::isNotEmpty)
 }
+
 
 changelog {
     groups.empty()
@@ -41,9 +45,8 @@ tasks {
     buildSearchableOptions {
         enabled = false
     }
-    withType<JavaCompile> {
-        sourceCompatibility = JavaVersion.VERSION_11.toString()
-        targetCompatibility = JavaVersion.VERSION_11.toString()
+
+    compileJava {
         options.encoding = "UTF-8"
     }
 
