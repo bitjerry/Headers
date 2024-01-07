@@ -36,8 +36,7 @@ public class ResourceUtils {
                 }
             }
         } catch (Exception e) {
-            System.out.println(e);
-            LOG.debug(e);
+            LOG.error(e);
         }
         return content.toString();
     }

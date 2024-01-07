@@ -8,15 +8,14 @@
 package su.gov.headers.utils;
 
 import com.intellij.ide.BrowserUtil;
-import com.intellij.openapi.project.DumbAwareAction;
-import su.gov.headers.HeadersBundle;
-import su.gov.headers.HeadersPlugin;
-import su.gov.headers.icons.PluginIcon;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
-import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.DumbAwareAction;
+import su.gov.headers.HeadersBundle;
+import su.gov.headers.HeadersPlugin;
 import su.gov.headers.Website;
+import su.gov.headers.icons.PluginIcon;
 
 
 public class NotificationUtils {
