@@ -17,12 +17,6 @@
     <img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/installation_button.svg" height="52" alt="Get from Marketplace" title="Get from Marketplace">
 </a>
 
-## 演示
-
----
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/headers.gif" alt="screenshots"></p>
-<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/custom_script.png" alt="screenshots"></p>
-
 ## 功能
 
 ---
@@ -42,6 +36,8 @@
 1. 复制浏览器中的报文头或选择已有代码, 在代码编辑区右键点击 headers 或者 cookies
 2. 插件自动以 JSON 格式生成相应内容, 并粘贴到光标处或替换当前文本
 
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/headers.gif" alt="screenshots"></p>
+
 ### 生成请求代码
 
 > 根据 curl 命令生成请求代码
@@ -49,6 +45,8 @@
 
 1. 复制 curl 命令, 当你在 IDEA 中粘贴时, 右键菜单 headers 选择 curl 对应代码生成脚本
 2. 插件自动将代码插入光标对应位置
+
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/curl.gif" alt="screenshots"></p>
 
 ### 自定义代码生成脚本
 
@@ -58,14 +56,7 @@
 2. 打开设置 -> 工具 -> headers, 左侧脚本列表添加一个脚本, 在右侧编辑器中粘贴前方写好的脚本
 3. 即可在 IDEA 中右键 headers -> curl 看到对应的代码生成脚本, 转换 curl 命令
 
-## 注意  
-
----
-
-- 
-- 
-- 
-
+<p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/custom_script.png" alt="screenshots"></p>
 
 ## 常见问题
 
