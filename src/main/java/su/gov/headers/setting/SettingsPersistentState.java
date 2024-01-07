@@ -67,7 +67,7 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
     @Nullable
     @Override
     public SettingsPersistentState getState() {
-        return null;
+        return this;
     }
 
     @Override
