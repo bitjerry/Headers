@@ -9,6 +9,8 @@
 
 This tool assists programmers in quickly handling browser request message information.
 
+Read in other languages: English | [简体中文](./README.zh-CN.md)
+
 ## Installation
 
 ---
