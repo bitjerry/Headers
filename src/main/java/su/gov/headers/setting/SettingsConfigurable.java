@@ -1,13 +1,9 @@
 package su.gov.headers.setting;
 
-//import localization.PluginBundle;
-//import storage.GitCommitMessageHelperSettings;
-
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.util.Disposer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.gov.headers.actions.curlAction.CurlGroup;
 import su.gov.headers.ui.SettingsPanel;
 
 import javax.swing.*;
