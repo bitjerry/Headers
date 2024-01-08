@@ -16,12 +16,9 @@ import org.openjdk.nashorn.api.scripting.JSObject;
 import su.gov.headers.HeadersBundle;
 import su.gov.headers.curl.CurlObject;
 import su.gov.headers.curl.CurlParserAdapter;
-import su.gov.headers.utils.NotificationUtils;
 import su.gov.headers.transform.TransformScriptAction;
 import su.gov.headers.transform.TransformScriptModel;
-
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
+import su.gov.headers.utils.NotificationUtils;
 
 import javax.script.Compilable;
 import javax.script.CompiledScript;

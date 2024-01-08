@@ -24,8 +24,6 @@ import su.gov.headers.HeadersBundle;
 import su.gov.headers.Website;
 import su.gov.headers.ui.scriptsEditor.ScriptsListPanel;
 
-import java.io.*;
-
 public class ExportAction extends AnAction {
 
     private final static Logger LOGGER = Logger.getInstance(ExportAction.class);

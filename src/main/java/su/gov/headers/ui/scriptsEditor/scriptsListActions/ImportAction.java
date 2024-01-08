@@ -28,8 +28,6 @@ import su.gov.headers.Website;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.ui.scriptsEditor.ScriptsListPanel;
 
-import java.io.IOException;
-
 public class ImportAction extends AnAction {
 
     private final ScriptsListPanel scriptsListPanel;

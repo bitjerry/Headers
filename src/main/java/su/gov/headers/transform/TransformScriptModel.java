@@ -13,12 +13,13 @@ package su.gov.headers.transform;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
 import su.gov.headers.utils.ResourceUtils;
 
-import javax.script.*;
+import javax.script.CompiledScript;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.SimpleScriptContext;
 import java.util.UUID;
 
 public class TransformScriptModel {

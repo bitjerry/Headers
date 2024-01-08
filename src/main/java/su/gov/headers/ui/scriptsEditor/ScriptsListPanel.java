@@ -23,7 +23,6 @@ import su.gov.headers.transform.TransformScriptModelProcessor;
 import su.gov.headers.ui.SettingsPanel;
 import su.gov.headers.ui.scriptsEditor.scriptsListActions.ExportAction;
 import su.gov.headers.ui.scriptsEditor.scriptsListActions.ImportAction;
-import su.gov.headers.utils.ResourceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
