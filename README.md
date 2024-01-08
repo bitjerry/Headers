@@ -83,7 +83,7 @@ Read in other languages: English | [简体中文](./README.zh-CN.md)
 ### License
 
 ---
-MIT © [bitjerry](./LICENSE)
+Apache 2.0 © [bitjerry](./LICENSE)
   
 *2021/11/22*
 *Mr.lin*

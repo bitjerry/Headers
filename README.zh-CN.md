@@ -60,20 +60,20 @@
 
 ## 常见问题
 
-1. 为什么我复制的 curl 命令无法解析或有遗漏参数?
+1. 为什么我复制的 curl 命令无法解析或有遗漏参数?  
     答: 插件实现的 curl 命令解析器并不支持所有参数, 该插件重点关注浏览器中的 curl 命令. 
     当然, 如果你有需求欢迎提 issue, 我很乐意完善这个解析器.  
     在浏览器中选择 curl 命令时, 请选择 bash 格式.
-2. 生成的代码有误?
+2. 生成的代码有误?  
     答: 插件自带的三个脚本通过参照 curl 文档的部分例子进行测试. curl 是一个复杂的工具, 难免有遗漏. 
     此外, 因为库版本原因, 生成的代码可能包含无效的 API. 对于生成代码问题你只需要修改脚本即可.
 3. 为什么生成的代码格式混乱?
     答: 请查看插件选项中是否勾选了自动格式化和保持缩进. 如果格式化失败, 请检查 IDEA 是否安装了对应语言的支持插件.
-4. 脚本执行慢?
+4. 脚本执行慢?  
     答: 脚本每次修改后执行可能会慢些, 但之后会从编译缓存中执行脚本. 
-5. 未找到xxx方法, undefined, 语法错误?
+5. 未找到xxx方法, undefined, 语法错误?  
     答: 脚本支持 ES6 部分标准, 请参考 [nashorn JavaScript 对 ES6 的支持](https://developer.oracle.com/zh/learn/technical-articles/nashorn-javascript-part1)
-6. 为什么是 JavaScript 和 nashorn?
+6. 为什么是 JavaScript 和 nashorn?  
     答: 选择 JavaScript 作为代码生成脚本, 一是考虑到其相较于模板语言的灵活性, 二是对于大部分需要从浏览器扣请求的用户而言, JavaScript 更易上手.
     nashorn 确实比较古老, 也有许多令人诟病的地方, 但它足够轻量, 对于代码生成而言完全够用. 如果你有更好的建议欢迎提 issue.
 
@@ -81,7 +81,7 @@
 ## 许可
 
 ---
-MIT © [bitjerry](./LICENSE)
+Apache 2.0 © [bitjerry](./LICENSE)
   
 *2021/11/22*
 *Mr.lin*
