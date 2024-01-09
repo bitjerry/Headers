@@ -11,90 +11,102 @@
 package su.gov.headers.curl;
 
 import com.intellij.openapi.diagnostic.Logger;
-import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.openjdk.nashorn.internal.runtime.Undefined;
+import su.gov.headers.scripts.objects.JSArrayWarp;
+import su.gov.headers.scripts.objects.JSObjectWarp;
 
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
-import javax.script.SimpleScriptContext;
-
-public class CurlObject  {
-    private ScriptObjectMirror curlObject;
-    private final ScriptEngine engine;
+public class CurlObject {
 
     private final static Logger LOGGER = Logger.getInstance(CurlObject.class);
 
-    public CurlObject(ScriptEngine engine) {
-        this.engine = engine;
-    }
+    private final JSObjectWarp rootObject;
 
-    public void initRootObject() throws ScriptException {
-        this.curlObject = createJSObject();
-    }
+    private JSObjectWarp params;
 
-    public void setMember(String key, Object value){
-        curlObject.setMember(key, value);
-    }
+    private JSObjectWarp headers;
 
+    private JSObjectWarp cookies;
 
-    public Object getMember(String key){
-        return curlObject.getMember(key);
-    }
+    private Form form;
 
+    public static class Form {
 
-    public ScriptObjectMirror getJSObject(String key) throws ScriptException {
-        Object object = curlObject.getMember(key);
-        if (object instanceof Undefined){
-            ScriptObjectMirror jsObject = createJSObject();
-            curlObject.setMember(key, jsObject);
-            return jsObject;
+        private final JSArrayWarp jsArrayWarp;
+
+        public Form(JSArrayWarp jsArrayWarp) {
+            this.jsArrayWarp = jsArrayWarp;
         }
-        return (ScriptObjectMirror) object;
-    }
 
-    public ScriptObjectMirror getJSArray(String key) throws ScriptException {
-        Object object = curlObject.getMember(key);
-        if (object instanceof Undefined){
-            ScriptObjectMirror jsObject = createJSArray();
-            curlObject.setMember(key, jsObject);
-            return jsObject;
+        public JSObjectWarp get() {
+            JSObjectWarp jsObjectWarp = JSObjectWarp.newObject();
+            jsArrayWarp.append(jsObjectWarp.getObject());
+            return jsObjectWarp;
         }
-        return (ScriptObjectMirror) object;
     }
 
-    public static boolean isEmpty(Object object){
-        if (object == null){
-            return true;
-        } else if (object instanceof ScriptObjectMirror){
-            return ((ScriptObjectMirror) object).isEmpty();
-        } else return object instanceof String && ((String) object).isEmpty();
+    public CurlObject() {
+        rootObject = JSObjectWarp.newObject();
     }
 
-    public ScriptObjectMirror createJSObject() throws ScriptException {
-        ScriptObjectMirror objConstructor = (ScriptObjectMirror) engine.eval("Object");
-        return (ScriptObjectMirror) objConstructor.newObject();
-
+    public String getMethod() {
+        return (String) rootObject.get("method");
     }
 
-    public ScriptObjectMirror createJSArray() throws ScriptException {
-        ScriptObjectMirror objConstructor = (ScriptObjectMirror) engine.eval("Array");
-        return (ScriptObjectMirror) objConstructor.newObject();
+    public void setMethod(String method) {
+        rootObject.set("method", method);
     }
 
-    public ScriptObjectMirror toJSObject(){
-        return curlObject;
+    public String getUrl() {
+        return (String) rootObject.get("url");
     }
 
-    @Override
-    public String toString() {
-        try {
-            SimpleScriptContext context = new SimpleScriptContext();
-            context.setAttribute("obj", curlObject, ScriptContext.ENGINE_SCOPE);
-            return (String) engine.eval("JSON.stringify(obj,null,4)", context);
-        } catch (ScriptException e) {
-            LOGGER.error(e);
+    public void setUrl(String url) {
+        rootObject.set("url", url);
+    }
+
+    public JSObjectWarp getParams() {
+        if (params == null) {
+            params = JSObjectWarp.newObject();
+            rootObject.set("params", params.getObject());
         }
-        return "";
+        return params;
     }
+
+    public JSObjectWarp getHeaders() {
+        if (headers == null) {
+            headers = JSObjectWarp.newObject();
+            rootObject.set("headers", headers.getObject());
+        }
+        return headers;
+    }
+
+    public JSObjectWarp getCookies() {
+        if (cookies == null) {
+            cookies = JSObjectWarp.newObject();
+            rootObject.set("cookies", cookies.getObject());
+        }
+        return cookies;
+    }
+
+    public Object getData() {
+        return rootObject.get("data");
+    }
+
+    public void setData(String data) {
+        rootObject.set("data", data);
+    }
+
+    public Form getForm() {
+        if (form == null) {
+            JSArrayWarp jsArrayWarp = JSArrayWarp.newObject();
+            form = new Form(jsArrayWarp);
+            rootObject.set("form", jsArrayWarp.getObject());
+        }
+        return form;
+    }
+
+
+    public JSObjectWarp getRoot() {
+        return rootObject;
+    }
+
 }

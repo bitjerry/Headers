@@ -16,8 +16,8 @@ import su.gov.headers.curl.annotation.CurlOptionHandler;
 import su.gov.headers.curl.annotation.Parser;
 import su.gov.headers.curl.annotation.PostParser;
 import su.gov.headers.curl.annotation.PreParser;
-import su.gov.headers.transform.TransformScriptModel;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 public class CurlParserAdapter {
 
-    private static final Map<Class<?>, Map<String, Method>> handlerMap = new HashMap<>(){
+    private static final Map<Class<? extends Annotation>, Map<String, Method>> handlerMap = new HashMap<>(){
         {
             put(Parser.class, new HashMap<>());
             put(PreParser.class, new HashMap<>());
@@ -36,7 +36,7 @@ public class CurlParserAdapter {
         }
     };
 
-    private static final Map<Class<?>, Map<Pattern, Method>> regexHandlerMap = new HashMap<>(){
+    private static final Map<Class<? extends Annotation>, Map<Pattern, Method>> regexHandlerMap = new HashMap<>(){
         {
             put(Parser.class, new HashMap<>());
             put(PreParser.class, new HashMap<>());
@@ -75,7 +75,7 @@ public class CurlParserAdapter {
         }
     }
 
-    private static void handlerCurlOptions(Class<?> parserAnnotation, List<String> tokens, CurlParser parser) throws Exception {
+    private static void handlerCurlOptions(Class<? extends Annotation> parserAnnotation, List<String> tokens, CurlParser parser) throws Exception {
         Map<String, Method> handlers = handlerMap.get(parserAnnotation);
         Map<Pattern, Method> regexHandlers = regexHandlerMap.get(parserAnnotation);
         if (handlers.isEmpty() && regexHandlers.isEmpty()) {
@@ -100,9 +100,9 @@ public class CurlParserAdapter {
 
     }
 
+
     public static CurlObject parse(String curlCommand) throws Exception {
-        CurlObject curlObject = new CurlObject(TransformScriptModel.ENGINE);
-        curlObject.initRootObject();
+        CurlObject curlObject = new CurlObject();
         CurlParser parser = new CurlParser(curlObject);
         Matcher matcher = COMMAND_PATTERN.matcher(curlCommand);
         List<String> tokens = new ArrayList<>();
