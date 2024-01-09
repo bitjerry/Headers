@@ -5,8 +5,8 @@
 name: Release
 on:
   release:
-    types: [ published ]
-#    types: [prereleased, released]
+    types: [ released ]
+#    types: [prereleased, published]
   workflow_dispatch:
 
 
