@@ -10,47 +10,43 @@
  */
 package su.gov.headers.scripts.objects;
 
-import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.openjdk.nashorn.internal.runtime.Undefined;
-import su.gov.headers.scripts.Script;
-
-import javax.script.ScriptException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.Undefined;
+import su.gov.headers.scripts.Scope;
 
 public class JSObjectWarp {
 
-    private final ScriptObjectMirror jsObject;
+    protected final Scriptable jsObject;
 
-    private final static ScriptObjectMirror objConstructor;
 
-    static {
-        try {
-            objConstructor = (ScriptObjectMirror) Script.ENGINE.eval("Object");
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected JSObjectWarp(ScriptObjectMirror jsObject) {
+    protected JSObjectWarp(Scriptable jsObject) {
         this.jsObject = jsObject;
     }
 
     public static JSObjectWarp newObject() {
-        return new JSObjectWarp((ScriptObjectMirror) objConstructor.newObject());
+        try {
+            Context ct = Context.enter();
+            return new JSObjectWarp(ct.newObject(Scope.shareScope));
+        } finally {
+            Context.exit();
+        }
+
     }
 
     public Object get(String key) {
-        return jsObject.getMember(key);
+        return jsObject.get(key, jsObject);
     }
 
     public void set(String key, Object value) {
-        jsObject.setMember(key, value);
+        jsObject.put(key, jsObject, value);
     }
 
     public void remove(String key) {
-        jsObject.removeMember(key);
+        jsObject.delete(key);
     }
 
-    public ScriptObjectMirror getObject() {
+    public Scriptable getObject() {
         return jsObject;
     }
 

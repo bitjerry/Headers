@@ -11,6 +11,13 @@ This tool assists programmers in quickly handling browser request message inform
 
 Read in other languages: English | [简体中文](./README.zh-CN.md)
 
+## Warning
+
+This is a version built by IDEA's built-in rhino engine.   
+Since the rhino version is lower, there are many problems with JS support.   
+Don't worry if you get an runtime error, it is normal.  
+This branch is only for testing and will not be released.
+
 ## Installation
 
 ---
@@ -74,11 +81,6 @@ Read in other languages: English | [简体中文](./README.zh-CN.md)
     - Check if auto-formatting and maintaining indentation are enabled in the plugin options. If formatting fails, ensure that the corresponding language support plugin is installed in IDEA.
 4. Is the script execution slow?
     - After each script modification, the initial execution might be slower, but subsequent executions will be faster due to the compilation cache.
-5. Method not found, undefined, or syntax errors?
-    - The scripts support some ES6 features. Please refer to [nashorn JavaScript support for ES6](https://developer.oracle.com/zh/learn/technical-articles/nashorn-javascript-part1).
-6. Why JavaScript and nashorn?
-    - JavaScript was chosen for code generation scripts due to its flexibility compared to template languages. For most users dealing with browser-requested data, JavaScript is more user-friendly.
-      Nashorn, while somewhat dated and criticized, is lightweight and sufficient for code generation. If you have better suggestions, feel free to raise an issue.
 
 ### License
 

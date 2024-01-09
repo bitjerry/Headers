@@ -10,34 +10,29 @@
  */
 package su.gov.headers.scripts.objects;
 
-import org.openjdk.nashorn.api.scripting.ScriptObjectMirror;
-import su.gov.headers.scripts.Script;
 
-import javax.script.ScriptException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import su.gov.headers.scripts.Scope;
 
 public class JSArrayWarp extends JSObjectWarp {
 
-    private final static ScriptObjectMirror objConstructor;
-
-    static {
-        try {
-            objConstructor = (ScriptObjectMirror) Script.ENGINE.eval("Array");
-        } catch (ScriptException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected JSArrayWarp(ScriptObjectMirror jsObject) {
+    protected JSArrayWarp(Scriptable jsObject) {
         super(jsObject);
     }
 
 
     public static JSArrayWarp newObject()  {
-        return new JSArrayWarp((ScriptObjectMirror) objConstructor.newObject());
+        try {
+            Context ct = Context.enter();
+            return new JSArrayWarp(ct.newObject(Scope.shareScope, "Array"));
+        } finally {
+            Context.exit();
+        }
     }
 
     public void append(Object o){
-        Object length = get("length");
-        set(String.valueOf(length), o);
+        Double length = (Double) get("length");
+        jsObject.put(length.intValue(), jsObject, o);
     }
 }

@@ -10,45 +10,63 @@
  */
 package su.gov.headers.scripts;
 
-import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
-
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
+import org.mozilla.javascript.Context;
 import javax.script.ScriptException;
 
 public class Script {
 
-    private final static NashornScriptEngineFactory FACTORY = new NashornScriptEngineFactory();
-
-    public final static ScriptEngine ENGINE = FACTORY.getScriptEngine("--optimistic-types=true", "--language=es6");
-
     private final String script;
 
-    private CompiledScript compiledScript = null;
+    private org.mozilla.javascript.Script compiledScript = null;
 
-    public Script(String script){
+    public Script(String script) {
         this.script = script;
     }
 
     public void compile() throws ScriptException {
-        if (compiledScript == null){
-            compiledScript = ((Compilable) ENGINE).compile(script);
+        if (compiledScript == null) {
+
+            try {
+                Context ct = Context.enter();
+                compiledScript = ct.compileString(script, null, 1, null);
+            } finally {
+                Context.exit();
+            }
         }
     }
 
-    public Object eval() throws ScriptException {
-        if (compiledScript != null){
-            return compiledScript.eval();
+    public Object eval() {
+        if (compiledScript != null) {
+            try {
+                Context ct = Context.enter();
+                return compiledScript.exec(ct, Scope.shareScope);
+            } finally {
+                Context.exit();
+            }
         }
-        return ENGINE.eval(script);
+        try {
+            Context ct = Context.enter();
+            return ct.evaluateString(Scope.shareScope, script, null, 1, null);
+        } finally {
+            Context.exit();
+        }
     }
 
-    public Object eval(Scope scope) throws ScriptException {
-        if (compiledScript != null){
-            return compiledScript.eval(scope.context);
+    public Object eval(Scope scope) {
+        if (compiledScript != null) {
+            try {
+                Context ct = Context.enter();
+                return compiledScript.exec(ct, scope.scope);
+            } finally {
+                Context.exit();
+            }
         }
-        return ENGINE.eval(script, scope.context);
+        try {
+            Context ct = Context.enter();
+            return ct.evaluateString(scope.scope, script, null, 1, null);
+        } finally {
+            Context.exit();
+        }
     }
 
 }

@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.openjdk.nashorn:nashorn-core:15.4")
+//    implementation("org.openjdk.nashorn:nashorn-core:15.4")
 //    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
 //    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }

@@ -10,20 +10,31 @@
  */
 package su.gov.headers.scripts;
 
-import org.openjdk.nashorn.api.scripting.JSObject;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
 import su.gov.headers.scripts.objects.JSObjectWarp;
 
-import javax.script.ScriptContext;
-import javax.script.SimpleScriptContext;
 import java.io.Closeable;
 
 public class Scope implements Closeable {
+    public static final Scriptable shareScope;
 
-    protected final ScriptContext context;
+    protected final Context context;
+
+    protected final Scriptable scope;
+
+    static {
+        Context ct = Context.enter();
+        ct.setOptimizationLevel(-1);
+        ct.setLanguageVersion(Context.VERSION_ES6);
+        shareScope = ct.initStandardObjects();
+        Context.exit();
+    }
 
     private Scope() {
-        this.context = new SimpleScriptContext();
-        context.setBindings(Script.ENGINE.createBindings(), ScriptContext.ENGINE_SCOPE);
+        this.context = Context.enter();
+        this.scope = this.context.newObject(shareScope);
     }
 
     public static Scope enter() {
@@ -31,28 +42,28 @@ public class Scope implements Closeable {
     }
 
     public Object getAttribute(String key) {
-        return context.getAttribute(key, ScriptContext.ENGINE_SCOPE);
+        return scope.get(key, scope);
     }
 
     public void setAttribute(String key, Object value) {
-        context.setAttribute(key, value, ScriptContext.ENGINE_SCOPE);
+        scope.put(key, scope, value);
     }
 
-    public Object removeAttribute(String key) {
-        return context.removeAttribute(key, ScriptContext.ENGINE_SCOPE);
+    public void removeAttribute(String key) {
+        scope.delete(key);
     }
 
     public String call(String function, Object thiz, Object... args) {
-        JSObject func = (JSObject) getAttribute(function);
+        Function func = (Function) getAttribute(function);
         if (JSObjectWarp.isEmpty(func)) {
             return null;
         }
-        return String.valueOf(func.call(thiz, args));
+        return String.valueOf(func.call(context, scope, scope, args));
     }
 
     @Override
     public void close() {
-//        context.getBindings(ScriptContext.ENGINE_SCOPE).clear();
+        Context.exit();
     }
 
 }
