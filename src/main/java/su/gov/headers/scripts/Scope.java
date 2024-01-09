@@ -25,11 +25,14 @@ public class Scope implements Closeable {
     protected final Scriptable scope;
 
     static {
-        Context ct = Context.enter();
-        ct.setOptimizationLevel(-1);
-        ct.setLanguageVersion(Context.VERSION_ES6);
-        shareScope = ct.initStandardObjects();
-        Context.exit();
+        try {
+            Context ct = Context.enter();
+            ct.setOptimizationLevel(-1);
+            ct.setLanguageVersion(Context.VERSION_ES6);
+            shareScope = ct.initStandardObjects();
+        } finally {
+            Context.exit();
+        }
     }
 
     private Scope() {

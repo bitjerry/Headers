@@ -31,7 +31,6 @@ public class JSObjectWarp {
         } finally {
             Context.exit();
         }
-
     }
 
     public Object get(String key) {

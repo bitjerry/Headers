@@ -25,7 +25,6 @@ public class Script {
 
     public void compile() throws ScriptException {
         if (compiledScript == null) {
-
             try {
                 Context ct = Context.enter();
                 compiledScript = ct.compileString(script, null, 1, null);
