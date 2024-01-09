@@ -44,7 +44,7 @@ public abstract class TransformAction extends AnAction implements Transform {
     public void actionPerformed(@NotNull AnActionEvent event) {
         String code = readSelectedCode();
         if (StringUtil.isEmpty(code)) {
-            NotificationUtils.warning(HeadersBundle.message("warning.read.result.empty"));
+            NotificationUtils.warning(HeadersBundle.message("warning.read.result.empty"), project);
             return;
         }
         WriteCommandAction.runWriteCommandAction(project,
@@ -70,7 +70,7 @@ public abstract class TransformAction extends AnAction implements Transform {
             }
         } catch (Exception ex) {
             LOGGER.error("Oops!!! There was a fucking error on read the code", ex);
-            NotificationUtils.error(HeadersBundle.message("error.read.code"));
+            NotificationUtils.error(HeadersBundle.message("error.read.code"), project);
         }
         return text;
     }
@@ -79,7 +79,7 @@ public abstract class TransformAction extends AnAction implements Transform {
         code = transform(code);
         if (code != null){
             if (StringUtil.isEmpty(code)) {
-                NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"));
+                NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"), project);
             }
             else {
                 code = StringUtils.convertToLF(code);
