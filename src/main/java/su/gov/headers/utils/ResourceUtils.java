@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 
 public class ResourceUtils {
 
-    private static final Logger LOG = Logger.getInstance(ResourceUtils.class);
+    private static final Logger LOGGER = Logger.getInstance(ResourceUtils.class);
 
     public static String read(String resourcePath) {
         if(!resourcePath.startsWith("/")){
@@ -36,7 +36,7 @@ public class ResourceUtils {
                 }
             }
         } catch (Exception e) {
-            LOG.error(e);
+            LOGGER.error(e);
         }
         return content.toString();
     }

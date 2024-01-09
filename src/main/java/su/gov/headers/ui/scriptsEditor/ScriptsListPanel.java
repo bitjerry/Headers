@@ -19,7 +19,6 @@ import com.intellij.ui.ToolbarDecorator;
 import org.jetbrains.annotations.Nullable;
 import su.gov.headers.setting.SettingsPersistentState;
 import su.gov.headers.transform.TransformScriptModel;
-import su.gov.headers.transform.TransformScriptModelProcessor;
 import su.gov.headers.ui.SettingsPanel;
 import su.gov.headers.ui.scriptsEditor.scriptsListActions.ExportAction;
 import su.gov.headers.ui.scriptsEditor.scriptsListActions.ImportAction;
@@ -68,7 +67,13 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
         return list;
     }
 
-    public void processSelectedItem(TransformScriptModelProcessor<TransformScriptModel> processor) {
+    @FunctionalInterface
+    public interface TransformScriptModelProcessor {
+
+        void process(TransformScriptModel transformModel);
+    }
+
+    public void processSelectedItem(TransformScriptModelProcessor processor) {
         TransformScriptModel transformScriptModel = getSelectedItem();
         if (transformScriptModel == null) {
             bindSettingsPanel.getScriptsEditorPanel().disable();

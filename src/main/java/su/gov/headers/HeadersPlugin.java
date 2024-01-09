@@ -51,10 +51,9 @@ public class HeadersPlugin implements StartupActivity {
     static class WelcomeNotification extends Notification implements NotificationFullContent {
 
         public WelcomeNotification() {
-            super("Headers Plugin Welcome", PluginIcon.GREEN_16, NotificationType.INFORMATION);
+            super("Headers Plugin Welcome", HeadersBundle.message("welcome.title"), HeadersBundle.message("welcome.content"), NotificationType.INFORMATION);
             setImportant(true);
-            setTitle(HeadersBundle.message("welcome.title"));
-            setContent(HeadersBundle.message("welcome.content"));
+            setIcon(PluginIcon.GREEN_16);
             addAction(DumbAwareAction.create(HeadersBundle.message("welcome.source.code"),
                     e -> BrowserUtil.open(Website.SOURCE)));
             addAction(DumbAwareAction.create(HeadersBundle.message("welcome.help"),

@@ -13,20 +13,12 @@ package su.gov.headers.transform;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
-import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
+import su.gov.headers.scripts.Script;
 import su.gov.headers.utils.ResourceUtils;
 
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.SimpleScriptContext;
 import java.util.UUID;
 
 public class TransformScriptModel {
-
-    private final static NashornScriptEngineFactory FACTORY = new NashornScriptEngineFactory();
-
-    public final static ScriptEngine ENGINE = FACTORY.getScriptEngine("--optimistic-types=true", "--language=es6");
 
     private final static String TEMPLATE_SCRIPT = ResourceUtils.read("/scripts/template.js");
 
@@ -38,7 +30,7 @@ public class TransformScriptModel {
     private boolean keepIndent;
 
     @JsonIgnore
-    private CompiledScript compiledScript = null;
+    private Script script = null;
 
     public TransformScriptModel() {
         this(UUID.randomUUID().toString());
@@ -65,12 +57,12 @@ public class TransformScriptModel {
     }
 
     @Transient
-    public CompiledScript getCompiledScript() {
-        return compiledScript;
+    public Script getScript() {
+        return script;
     }
 
-    public void setCompiledScript(CompiledScript compiledScript) {
-        this.compiledScript = compiledScript;
+    public void setScript(Script script) {
+        this.script = script;
     }
 
     public void setAutoReformat(boolean autoReformat) {
@@ -102,16 +94,10 @@ public class TransformScriptModel {
     }
 
     public void setScriptContent(@NotNull String scriptContent) {
-        setCompiledScript(null);
+        setScript(null);
         this.scriptContent = scriptContent;
     }
     // end of getters and setters
-
-    public static ScriptContext createScriptContext() {
-        SimpleScriptContext context = new SimpleScriptContext();
-        context.setBindings(ENGINE.createBindings(), ScriptContext.ENGINE_SCOPE);
-        return context;
-    }
 
 
     public TransformScriptModel copy() {
@@ -122,7 +108,6 @@ public class TransformScriptModel {
         model.setKeepIndent(this.keepIndent);
         return model;
     }
-
 
     @Override
     public String toString() {

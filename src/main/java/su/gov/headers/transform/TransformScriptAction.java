@@ -43,13 +43,13 @@ public abstract class TransformScriptAction extends TransformAction {
             return;
         }
         if (StringUtil.isEmpty(code)) {
-            NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"));
+            NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"), project);
             return;
         }
 
         code = StringUtils.convertToLF(code);
         if (StringUtil.isEmpty(code)){
-            NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"));
+            NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"), project);
             return;
         }
         if (transformScriptModel.getKeepIndent()){

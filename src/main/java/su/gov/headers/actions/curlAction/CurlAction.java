@@ -12,17 +12,15 @@ package su.gov.headers.actions.curlAction;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
-import org.openjdk.nashorn.api.scripting.JSObject;
 import su.gov.headers.HeadersBundle;
 import su.gov.headers.curl.CurlObject;
 import su.gov.headers.curl.CurlParserAdapter;
+import su.gov.headers.scripts.Scope;
+import su.gov.headers.scripts.Script;
 import su.gov.headers.transform.TransformScriptAction;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.utils.NotificationUtils;
 
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptContext;
 import javax.script.ScriptException;
 
 public class CurlAction extends TransformScriptAction {
@@ -33,6 +31,7 @@ public class CurlAction extends TransformScriptAction {
         super(model);
     }
 
+
     @Override
     public String transform(String curlCommand) {
         CurlObject curlObject;
@@ -40,45 +39,43 @@ public class CurlAction extends TransformScriptAction {
             curlObject = CurlParserAdapter.parse(curlCommand);
         } catch (Exception e) {
             LOGGER.error("Cannot parse curl command.", e);
-            NotificationUtils.error(HeadersBundle.message("error.transform.failure.parse.curl.command"));
+            NotificationUtils.error(HeadersBundle.message("error.transform.failure.parse.curl.command"), project);
             return null;
         }
 
         TransformScriptModel scriptModel = getTransformModel();
-        CompiledScript script = scriptModel.getCompiledScript();
+        Script script = scriptModel.getScript();
         try {
             if (script == null) {
                 String scriptContent = scriptModel.getScriptContent();
                 LOGGER.debug("Compiling script content: " + scriptContent);
                 if (StringUtil.isEmpty(scriptContent)) {
-                    NotificationUtils.error(HeadersBundle.message("warning.transform.script.empty"));
+                    NotificationUtils.error(HeadersBundle.message("warning.transform.script.empty"), project);
                     return null;
                 }
-                script = ((Compilable) TransformScriptModel.ENGINE).compile(scriptContent);
-                scriptModel.setCompiledScript(script);
+                script = new Script(scriptContent);
+                script.compile();
+                scriptModel.setScript(script);
             }
         } catch (ScriptException e) {
             LOGGER.error("A compile error occurred while compiling the script.", e);
-            NotificationUtils.error(HeadersBundle.message("error.transform.script.compile"));
+            NotificationUtils.error(HeadersBundle.message("error.transform.script.compile"), project);
             return null;
         }
 
-        try{
-            ScriptContext context = TransformScriptModel.createScriptContext();
-            script.eval(context);
-            JSObject function = (JSObject) context.getAttribute("transform", ScriptContext.ENGINE_SCOPE);
-            if (function == null) {
-                NotificationUtils.error(HeadersBundle.message("error.transform.no.transform.function"));
+        try(Scope scope = Scope.enter()){
+            script.eval(scope);
+            String result = scope.call("transform", null, curlObject.getRoot().getObject());
+            if (result == null) {
+                NotificationUtils.error(HeadersBundle.message("error.transform.no.transform.function"), project);
                 return null;
             }
-            Object result = function.call(null, curlObject.toJSObject());
-            return result.toString();
+            return result;
         }
         catch (Exception e){
             LOGGER.error("An error occurred while running the script.", e);
-            NotificationUtils.error(HeadersBundle.message("error.transform.script.runtime"));
+            NotificationUtils.error(HeadersBundle.message("error.transform.script.runtime"), project);
             return null;
         }
-
     }
 }

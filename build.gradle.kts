@@ -20,7 +20,6 @@ repositories {
 
 dependencies {
     implementation("org.openjdk.nashorn:nashorn-core:15.4")
-//    testImplementation("com.squareup.okhttp3:okhttp:4.12.0")
 //    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
 //    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }
@@ -48,6 +47,7 @@ tasks {
 
     compileJava {
         options.encoding = "UTF-8"
+        options.compilerArgs = listOf("-Xlint:unchecked", "-Xlint:deprecation")
     }
 
     wrapper {

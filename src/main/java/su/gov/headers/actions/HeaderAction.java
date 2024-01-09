@@ -66,7 +66,7 @@ public class HeaderAction extends TransformAction {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(headers);
         }catch (JsonProcessingException e){
             LOGGER.error("Transform request headers failure", e);
-            NotificationUtils.error(HeadersBundle.message("error.transform.header", e.getMessage()));
+            NotificationUtils.error(HeadersBundle.message("error.transform.header", e.getMessage()), project);
         }
         return null;
     }
