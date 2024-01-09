@@ -36,7 +36,7 @@ public class CookieAction extends TransformAction {
         }
         catch (JsonProcessingException e){
             LOGGER.error("Transform request cookie failure", e);
-            NotificationUtils.error(HeadersBundle.message("error.transform.cookie"));
+            NotificationUtils.error(HeadersBundle.message("error.transform.cookie"), project);
         }
         return null;
     }

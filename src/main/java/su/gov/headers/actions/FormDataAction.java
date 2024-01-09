@@ -35,7 +35,7 @@ public class FormDataAction extends TransformAction {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(formDataMap);
         }catch (JsonProcessingException e){
             LOGGER.error("Transform request form data failure", e);
-            NotificationUtils.error(HeadersBundle.message("error.transform.form.data", e.getMessage()));
+            NotificationUtils.error(HeadersBundle.message("error.transform.form.data", e.getMessage()), project);
         }
         return null;
     }
