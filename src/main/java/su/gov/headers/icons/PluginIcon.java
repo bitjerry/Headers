@@ -22,7 +22,7 @@ public class PluginIcon {
 
 
     private static Icon loadIcon(String iconName) {
-        return IconLoader.findIcon("/icons/" + iconName);
+        return IconLoader.getIcon("/icons/" + iconName, PluginIcon.class);
     }
 
 }
