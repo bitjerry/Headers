@@ -10,6 +10,7 @@
  */
 package su.gov.headers.ui.scriptsEditor;
 
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.command.CommandProcessor;
 import com.intellij.openapi.diagnostic.Logger;
@@ -23,26 +24,21 @@ import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.openapi.fileTypes.FileTypeManager;
-import com.intellij.ui.IdeBorderFactory;
 import com.intellij.ui.JBSplitter;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import org.jetbrains.annotations.NotNull;
-import org.openjdk.nashorn.api.scripting.JSObject;
 import su.gov.headers.HeadersBundle;
+import su.gov.headers.scripts.Scope;
+import su.gov.headers.scripts.Script;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.ui.SettingsPanel;
 import su.gov.headers.utils.ContainerUtils;
 import su.gov.headers.utils.ResourceUtils;
 import su.gov.headers.utils.StringUtils;
 
-import javax.script.ScriptContext;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
 
-public class ScriptsEditorPanel {
+public class ScriptsEditorPanel implements Disposable {
     private final SettingsPanel bindSettingsPanel;
     private JCheckBox autoReformatCheckBox;
     private JCheckBox keepIndentCheckBox;
@@ -63,7 +59,6 @@ public class ScriptsEditorPanel {
 
     public ScriptsEditorPanel(SettingsPanel bindSettingsPanel) {
         this.bindSettingsPanel = bindSettingsPanel;
-        $$$setupUI$$$();
         this.disable();
         this.addListeners();
         editorSettingPanel.setBorder(new TitledBorder(HeadersBundle.message("settings.scripts.control.title")));
@@ -124,30 +119,21 @@ public class ScriptsEditorPanel {
                         model -> model.setKeepIndent(keepIndentCheckBox.isSelected())
                 )
         );
-        testButton.addActionListener(e ->
-                bindSettingsPanel.getScriptsListPanel().processSelectedItem(
-                        model -> {
-                            ScriptContext context = TransformScriptModel.createScriptContext();
-                            String testResult = "// Plugin Warning: " + HeadersBundle.message("warning.transform.result.empty");
-                            try {
-                                TransformScriptModel.ENGINE.eval(TEST_CURL_OBJ, context);
-                                TransformScriptModel.ENGINE.eval(scriptEditor.getDocument().getText(), context);
-                                JSObject function = (JSObject) context.getAttribute("transform", ScriptContext.ENGINE_SCOPE);
-                                if (function == null) {
-                                    testResult = "// Plugin error: " + HeadersBundle.message("error.transform.no.transform.function");
-                                } else {
-                                    Object result = function.call(null, context.getAttribute("curlTestObj"));
-                                    if (result != null) {
-                                        testResult = result.toString();
-                                    }
-                                }
-                            } catch (Exception ex) {
-                                LOGGER.error("Error while executing curl test", ex);
-                                testResult = "// Plugin error: \n" + ex;
-                            }
-                            setPreviewContent(testResult);
+        testButton.addActionListener(e -> {
+                    String testResult;
+                    try (Scope scope = Scope.enter()) {
+                        new Script(TEST_CURL_OBJ).eval(scope);
+                        new Script(scriptEditor.getDocument().getText()).eval(scope);
+                        testResult = scope.call("transform", null, scope.getAttribute("curlTestObj"));
+                        if (testResult == null) {
+                            testResult = "// Plugin error: " + HeadersBundle.message("error.transform.no.transform.function");
                         }
-                )
+                    } catch (Exception ex) {
+                        LOGGER.error("Error while executing curl test", ex);
+                        testResult = "// Plugin error: \n" + ex;
+                    }
+                    setPreviewContent(testResult);
+                }
         );
         scriptEditor.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -180,7 +166,6 @@ public class ScriptsEditorPanel {
                 () -> CommandProcessor.getInstance().runUndoTransparentAction(
                         () -> {
                             Document previewDocument = previewEditor.getDocument();
-                            System.out.println(StringUtils.convertToLF(content));
                             previewDocument.replaceString(0, previewDocument.getTextLength(), StringUtils.convertToLF(content));
                         }
                 )
@@ -210,42 +195,15 @@ public class ScriptsEditorPanel {
     }
 
 
-    /**
-     * Method generated by IntelliJ IDEA GUI Designer
-     * >>> IMPORTANT!! <<<
-     * DO NOT edit this method OR call it in your code!
-     *
-     * @noinspection ALL
-     */
-    private void $$$setupUI$$$() {
-        createUIComponents();
-        editorPanel = new JPanel();
-        editorPanel.setLayout(new GridLayoutManager(2, 1, new Insets(0, 0, 0, 0), -1, -1));
-        editorSettingPanel = new JPanel();
-        editorSettingPanel.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
-        editorPanel.add(editorSettingPanel, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, true));
-        editorSettingPanel.setBorder(IdeBorderFactory.PlainSmallWithIndent.createTitledBorder(null, "Setting", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
-        autoReformatCheckBox = new JCheckBox();
-        autoReformatCheckBox.setText("Auto Reformat");
-        editorSettingPanel.add(autoReformatCheckBox, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        keepIndentCheckBox = new JCheckBox();
-        keepIndentCheckBox.setText("Keep Indent");
-        editorSettingPanel.add(keepIndentCheckBox, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        testButton = new JButton();
-        testButton.setText("Test");
-        editorSettingPanel.add(testButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final Spacer spacer1 = new Spacer();
-        editorSettingPanel.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        editorPanel.add(panel1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        panel1.add(editorSplitter, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-    }
+    @Override
+    public void dispose() {
+        if (!scriptEditor.isDisposed()){
+            EditorFactory.getInstance().releaseEditor(scriptEditor);
+        }
+        if (!previewEditor.isDisposed()){
+            EditorFactory.getInstance().releaseEditor(previewEditor);
+        }
 
-    /**
-     * @noinspection ALL
-     */
-    public JComponent $$$getRootComponent$$$() {
-        return editorPanel;
     }
 }
+
