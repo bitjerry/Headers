@@ -2,15 +2,12 @@ package su.gov.headers.ui;
 
 import com.intellij.openapi.Disposable;
 import com.intellij.ui.JBSplitter;
-import com.intellij.uiDesigner.core.GridConstraints;
-import com.intellij.uiDesigner.core.GridLayoutManager;
 import org.jetbrains.annotations.NotNull;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.ui.scriptsEditor.ScriptsEditorPanel;
 import su.gov.headers.ui.scriptsEditor.ScriptsListPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 

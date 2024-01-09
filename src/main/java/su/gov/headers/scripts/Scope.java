@@ -16,10 +16,6 @@ import su.gov.headers.scripts.objects.JSObjectWarp;
 import javax.script.ScriptContext;
 import javax.script.SimpleScriptContext;
 import java.io.Closeable;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Scope implements Closeable {
 
