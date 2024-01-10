@@ -52,7 +52,7 @@ public class Scope implements Closeable {
 
     @Override
     public void close() {
-//        context.getBindings(ScriptContext.ENGINE_SCOPE).clear();
+        context.getBindings(ScriptContext.ENGINE_SCOPE).clear();
     }
 
 }
