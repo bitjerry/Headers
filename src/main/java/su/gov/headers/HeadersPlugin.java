@@ -13,13 +13,14 @@ package su.gov.headers;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManagerCore;
-import com.intellij.notification.*;
+import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
 import com.intellij.notification.impl.NotificationFullContent;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.Constraints;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
-import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.DumbAwareAction;
@@ -35,33 +36,36 @@ import java.util.List;
 import java.util.Objects;
 
 public class HeadersPlugin implements StartupActivity {
+
+    private static final Logger LOGGER = Logger.getInstance(HeadersPlugin.class);
     public static final String PLUGIN_ID = "su.gov.Header";
+
+    public static final String VERSION_PROPERTY = PLUGIN_ID + ".version";
 
     public static final PluginId ID = PluginId.getId(PLUGIN_ID);
 
-    public @NotNull static final IdeaPluginDescriptor DESCRIPTOR = Objects.requireNonNull(PluginManagerCore.getPlugin(ID));
+    public @NotNull
+    static final IdeaPluginDescriptor DESCRIPTOR = Objects.requireNonNull(PluginManagerCore.getPlugin(ID));
 
     private static DefaultActionGroup CURL_ACTION_GROUP;
 
-    private static final Logger LOGGER = Logger.getInstance(HeadersPlugin.class);
 
-    public static void registerActions(ActionManager manager) {
-        unRegisterActions(manager);
-        List<TransformScriptModel> models = SettingsPersistentState.getInstance().getTransformModels();
+
+    public static void registerActions(ActionManager manager, List<TransformScriptModel> models) {
+        unRegisterActions(manager, models);
         LOGGER.debug("Registering " + models + "to group:" + CURL_ACTION_GROUP);
-        for (TransformScriptModel model: models){
-            CurlAction action = new CurlAction(model);
+        for (int i = models.size() - 1; i >= 0; i--) {
+            CurlAction action = new CurlAction(models.get(i));
             manager.registerAction(action.getId(), action, HeadersPlugin.ID);
             CURL_ACTION_GROUP.add(action, Constraints.FIRST);
         }
     }
 
-    public static void unRegisterActions(ActionManager manager) {
-        List<TransformScriptModel> models = SettingsPersistentState.getInstance().getTransformModels();
+    public static void unRegisterActions(ActionManager manager, List<TransformScriptModel> models) {
         LOGGER.debug("Unregistering " + models + "to group:" + CURL_ACTION_GROUP);
-        for (TransformScriptModel model: models){
+        for (TransformScriptModel model : models) {
             AnAction action = manager.getActionOrStub(model.getId());
-            if (action != null){
+            if (action != null) {
                 CURL_ACTION_GROUP.remove(action);
                 manager.unregisterAction(model.getId());
             }
@@ -84,13 +88,14 @@ public class HeadersPlugin implements StartupActivity {
 
     @Override
     public void runActivity(@NotNull Project project) {
+        ActionManager manager = ActionManager.getInstance();
+        CURL_ACTION_GROUP = (DefaultActionGroup) manager.getAction("Headers.Group.CurlGroup");
         SettingsPersistentState state = SettingsPersistentState.getInstance();
-        if (!DESCRIPTOR.getVersion().equals(state.getVersion())) {
+        registerActions(manager, state.getTransformModels());
+        String version = state.getVersion();
+        if (!DESCRIPTOR.getVersion().equals(version)) {
             state.setVersion(DESCRIPTOR.getVersion());
             new WelcomeNotification().notify(project);
         }
-        ActionManager manager = ActionManager.getInstance();
-        CURL_ACTION_GROUP = (DefaultActionGroup) manager.getAction("Headers.Group.CurlGroup");
-        registerActions(manager);
     }
 }
