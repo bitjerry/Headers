@@ -20,8 +20,6 @@ import su.gov.headers.utils.StringUtils;
 public abstract class TransformScriptAction extends TransformAction {
     private final TransformScriptModel transformScriptModel;
 
-    private static final Logger LOGGER = Logger.getInstance(TransformScriptAction.class);
-
     public TransformScriptAction(@NotNull TransformScriptModel model) {
         this.transformScriptModel = model;
         getTemplatePresentation().setText(model.getName());

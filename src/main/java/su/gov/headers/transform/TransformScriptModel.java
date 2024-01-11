@@ -13,7 +13,6 @@ package su.gov.headers.transform;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
-import su.gov.headers.HeadersPlugin;
 import su.gov.headers.scripts.Script;
 import su.gov.headers.utils.ResourceUtils;
 
@@ -23,7 +22,7 @@ public class TransformScriptModel {
 
     private final static String TEMPLATE_SCRIPT = ResourceUtils.read("/scripts/template.js");
 
-    private final String id;
+    private String id;
     private String name;
     private String scriptContent;
 
@@ -34,7 +33,7 @@ public class TransformScriptModel {
     private Script script = null;
 
     public TransformScriptModel() {
-        this(HeadersPlugin.DESCRIPTOR.getName() + UUID.randomUUID());
+        this(UUID.randomUUID().toString());
     }
 
     public TransformScriptModel(@NotNull String id) {
@@ -55,6 +54,10 @@ public class TransformScriptModel {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Transient

@@ -10,16 +10,14 @@
  */
 package su.gov.headers.setting;
 
-import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.gov.headers.HeadersPlugin;
-import su.gov.headers.actions.CurlAction;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.utils.ResourceUtils;
 
@@ -29,8 +27,6 @@ import java.util.List;
 @State(name = "HeadersSettings", storages = {@Storage(value = "headersSettings.xml")})
 public class SettingsPersistentState implements PersistentStateComponent<SettingsPersistentState>{
 
-    private static SettingsPersistentState INSTANCE;
-
     private String version;
 
     private List<TransformScriptModel> transformScriptModels = new ArrayList<>(){{
@@ -39,11 +35,14 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
         add(new TransformScriptModel("okhttp", ResourceUtils.read("/scripts/example/okhttp.js")));
     }};
 
+    private static SettingsPersistentState state;
+
+    @Transient
     public static SettingsPersistentState getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = ApplicationManager.getApplication().getService(SettingsPersistentState.class);
+        if (state == null){
+            state = ApplicationManager.getApplication().getService(SettingsPersistentState.class);
         }
-        return INSTANCE;
+        return state;
     }
 
     public String getVersion() {
@@ -64,10 +63,7 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
     }
 
     public void setTransformModels(List<TransformScriptModel> transformScriptModels) {
-        ActionManager manager = ActionManager.getInstance();
-        HeadersPlugin.unRegisterActions(manager);
         this.transformScriptModels = transformScriptModels;
-        HeadersPlugin.registerActions(manager);
     }
 
     @Nullable

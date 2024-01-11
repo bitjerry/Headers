@@ -5,10 +5,12 @@ import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.util.Disposer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.gov.headers.actions.CurlAction;
+import su.gov.headers.HeadersPlugin;
+import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.ui.SettingsPanel;
 
 import javax.swing.*;
+import java.util.List;
 
 public class SettingsConfigurable implements SearchableConfigurable {
 
@@ -67,6 +69,9 @@ public class SettingsConfigurable implements SearchableConfigurable {
 
     @Override
     public void apply() {
+        ActionManager manager = ActionManager.getInstance();
+        HeadersPlugin.unRegisterActions(manager, settingsState.getTransformModels());
         settingsState.setTransformModels(settingsPanel.getTransformModels());
+        HeadersPlugin.registerActions(manager, settingsState.getTransformModels());
     }
 }
