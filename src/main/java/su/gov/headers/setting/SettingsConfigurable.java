@@ -1,9 +1,11 @@
 package su.gov.headers.setting;
 
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.util.Disposer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import su.gov.headers.actions.CurlAction;
 import su.gov.headers.ui.SettingsPanel;
 
 import javax.swing.*;

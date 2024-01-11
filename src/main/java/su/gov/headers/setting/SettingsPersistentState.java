@@ -10,6 +10,7 @@
  */
 package su.gov.headers.setting;
 
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
@@ -17,6 +18,8 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import su.gov.headers.HeadersPlugin;
+import su.gov.headers.actions.CurlAction;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.utils.ResourceUtils;
 
@@ -61,7 +64,10 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
     }
 
     public void setTransformModels(List<TransformScriptModel> transformScriptModels) {
+        ActionManager manager = ActionManager.getInstance();
+        HeadersPlugin.unRegisterActions(manager);
         this.transformScriptModels = transformScriptModels;
+        HeadersPlugin.registerActions(manager);
     }
 
     @Nullable

@@ -8,7 +8,7 @@
  * @Version V1.0.0
  * @Copyright © 2023 by Mr.lin. All rights reserved.
  */
-package su.gov.headers.actions.curlAction;
+package su.gov.headers.actions;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
@@ -30,7 +30,6 @@ public class CurlAction extends TransformScriptAction {
     public CurlAction(TransformScriptModel model) {
         super(model);
     }
-
 
     @Override
     public String transform(String curlCommand) {

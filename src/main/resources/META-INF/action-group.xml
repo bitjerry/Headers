@@ -17,10 +17,11 @@
         <group id="Headers.Group.Main" text="Headers" popup="true">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Paste"/>
 
-            <group id="Headers.Group.CurlGroup" text="Curl" popup="true"
+            <group id="Headers.Group.CurlGroup" text="Curl"
                    description="Generate code based on the curl command"
-                   class="su.gov.headers.actions.curlAction.CurlGroup"
+                   popup="true"
             />
+
             <action class="su.gov.headers.actions.HeaderAction" text="Headers">
 <!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
                 <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift H"/>-->

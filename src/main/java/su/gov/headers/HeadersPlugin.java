@@ -15,37 +15,58 @@ import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManagerCore;
 import com.intellij.notification.*;
 import com.intellij.notification.impl.NotificationFullContent;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.Constraints;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
+import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.DumbAwareAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.startup.StartupActivity;
 import org.jetbrains.annotations.NotNull;
+import su.gov.headers.actions.CurlAction;
 import su.gov.headers.icons.PluginIcon;
 import su.gov.headers.setting.SettingsPersistentState;
+import su.gov.headers.transform.TransformScriptModel;
+
+import java.util.List;
+import java.util.Objects;
 
 public class HeadersPlugin implements StartupActivity {
     public static final String PLUGIN_ID = "su.gov.Header";
 
-    public static final IdeaPluginDescriptor descriptor = PluginManagerCore.getPlugin(PluginId.getId(PLUGIN_ID));
+    public static final PluginId ID = PluginId.getId(PLUGIN_ID);
 
-    private static String version;
+    public @NotNull static final IdeaPluginDescriptor DESCRIPTOR = Objects.requireNonNull(PluginManagerCore.getPlugin(ID));
 
-    private static String name;
+    private static DefaultActionGroup CURL_ACTION_GROUP;
 
-    public static @NotNull String getVersion() {
-        if (version == null) {
-            assert descriptor != null;
-            version = descriptor.getVersion();
+    private static final Logger LOGGER = Logger.getInstance(HeadersPlugin.class);
+
+    public static void registerActions(ActionManager manager) {
+        unRegisterActions(manager);
+        List<TransformScriptModel> models = SettingsPersistentState.getInstance().getTransformModels();
+        LOGGER.debug("Registering " + models + "to group:" + CURL_ACTION_GROUP);
+        for (TransformScriptModel model: models){
+            CurlAction action = new CurlAction(model);
+            manager.registerAction(action.getId(), action, HeadersPlugin.ID);
+            CURL_ACTION_GROUP.add(action, Constraints.FIRST);
         }
-        return version;
     }
 
-    public static @NotNull String getName() {
-        if (name == null) {
-            assert descriptor != null;
-            name = descriptor.getName();
+    public static void unRegisterActions(ActionManager manager) {
+        List<TransformScriptModel> models = SettingsPersistentState.getInstance().getTransformModels();
+        LOGGER.debug("Unregistering " + models + "to group:" + CURL_ACTION_GROUP);
+        for (TransformScriptModel model: models){
+            AnAction action = manager.getActionOrStub(model.getId());
+            if (action != null){
+                CURL_ACTION_GROUP.remove(action);
+                manager.unregisterAction(model.getId());
+            }
         }
-        return name;
+
     }
 
     static class WelcomeNotification extends Notification implements NotificationFullContent {
@@ -64,9 +85,12 @@ public class HeadersPlugin implements StartupActivity {
     @Override
     public void runActivity(@NotNull Project project) {
         SettingsPersistentState state = SettingsPersistentState.getInstance();
-        if (!getVersion().equals(state.getVersion())) {
-            state.setVersion(getVersion());
+        if (!DESCRIPTOR.getVersion().equals(state.getVersion())) {
+            state.setVersion(DESCRIPTOR.getVersion());
             new WelcomeNotification().notify(project);
         }
+        ActionManager manager = ActionManager.getInstance();
+        CURL_ACTION_GROUP = (DefaultActionGroup) manager.getAction("Headers.Group.CurlGroup");
+        registerActions(manager);
     }
 }
