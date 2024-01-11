@@ -24,14 +24,14 @@ public class NotificationUtils {
 
     public static void warning(String content, Project project) {
         GROUP.createNotification(content, NotificationType.WARNING)
-                .setTitle(HeadersPlugin.getName())
+                .setTitle(HeadersPlugin.DESCRIPTOR.getName())
                 .setIcon(PluginIcon.ORANGE_16)
                 .notify(project);
     }
 
     public static void error(String content, Project project) {
         GROUP.createNotification(content, NotificationType.ERROR)
-                .setTitle(HeadersPlugin.getName())
+                .setTitle(HeadersPlugin.DESCRIPTOR.getName())
                 .setIcon(PluginIcon.RED_16)
                 .addAction(DumbAwareAction.create(HeadersBundle.message("issues.feedback"),
                         e -> BrowserUtil.open(Website.ISSUES)))
@@ -40,7 +40,7 @@ public class NotificationUtils {
 
     public static void info(String content, Project project) {
         GROUP.createNotification(content, NotificationType.INFORMATION)
-                .setTitle(HeadersPlugin.getName())
+                .setTitle(HeadersPlugin.DESCRIPTOR.getName())
                 .setIcon(PluginIcon.GREEN_16)
                 .notify(project);
     }

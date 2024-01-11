@@ -1,5 +1,4 @@
 /**
- *
  * @Time: 2021/12/28 21:38
  * @author Mr.lin
  * @File: Cookies.java
@@ -23,9 +22,9 @@ public class CookieAction extends TransformAction {
     public String transform(String text) {
         LinkedHashMap<String, String> cookieMap = new LinkedHashMap<>();
         String[] cookieItems = text.split("\\s*;\\s*");
-        for (String cookieItem : cookieItems){
+        for (String cookieItem : cookieItems) {
             String[] cookieKV = cookieItem.split("\\s*=\\s*", 2);
-            if (cookieKV.length != 2){
+            if (cookieKV.length != 2) {
                 break;
             }
             cookieMap.put(cookieKV[0], cookieKV[1]);
@@ -33,8 +32,7 @@ public class CookieAction extends TransformAction {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(cookieMap);
-        }
-        catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             LOGGER.error("Transform request cookie failure", e);
             NotificationUtils.error(HeadersBundle.message("error.transform.cookie"), project);
         }

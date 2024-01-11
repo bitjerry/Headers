@@ -197,10 +197,10 @@ public class ScriptsEditorPanel implements Disposable {
 
     @Override
     public void dispose() {
-        if (!scriptEditor.isDisposed()){
+        if (!scriptEditor.isDisposed()) {
             EditorFactory.getInstance().releaseEditor(scriptEditor);
         }
-        if (!previewEditor.isDisposed()){
+        if (!previewEditor.isDisposed()) {
             EditorFactory.getInstance().releaseEditor(previewEditor);
         }
 

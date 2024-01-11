@@ -27,25 +27,25 @@ public class Script {
 
     private CompiledScript compiledScript = null;
 
-    public Script(String script){
+    public Script(String script) {
         this.script = script;
     }
 
     public void compile() throws ScriptException {
-        if (compiledScript == null){
+        if (compiledScript == null) {
             compiledScript = ((Compilable) ENGINE).compile(script);
         }
     }
 
     public Object eval() throws ScriptException {
-        if (compiledScript != null){
+        if (compiledScript != null) {
             return compiledScript.eval();
         }
         return ENGINE.eval(script);
     }
 
     public Object eval(Scope scope) throws ScriptException {
-        if (compiledScript != null){
+        if (compiledScript != null) {
             return compiledScript.eval(scope.context);
         }
         return ENGINE.eval(script, scope.context);

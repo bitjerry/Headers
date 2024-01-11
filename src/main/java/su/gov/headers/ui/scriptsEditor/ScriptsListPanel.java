@@ -34,7 +34,7 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
         super(null, SettingsPersistentState.getInstance().getTransformModels());
         this.bindSettingsPanel = bindSettingsPanel;
         myList.addListSelectionListener(e -> {
-            if (e.getValueIsAdjusting()){
+            if (e.getValueIsAdjusting()) {
                 return;
             }
             if (myListModel.isEmpty()) {
@@ -47,7 +47,7 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
         });
     }
 
-    public void setItem(TransformScriptModel model){
+    public void setItem(TransformScriptModel model) {
         myListModel.addElement(model);
     }
 
@@ -115,7 +115,6 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
     protected @Nullable TransformScriptModel findItemToAdd() {
         return showEditDialog(null);
     }
-
 
 
     @Override

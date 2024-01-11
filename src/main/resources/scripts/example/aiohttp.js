@@ -10,14 +10,13 @@ function transformForm(input) {
         params.push(`name=${escapeString(item.name)}`)
         if (item.value.startsWith("@")) {
             params.push(`value=open(${escapeString(item.value)}, "rb").read()`)
-        }
-        else {
+        } else {
             params.push(`value=${escapeString(item.value)}`)
         }
         if (item.filename) {
             params.push(`filename=${escapeString(item.filename)}`)
         }
-        if (item.type){
+        if (item.type) {
             params.push(`content_type=${escapeString(item.type)}`)
         }
         formData += `data.add_field(${params.join(",")})\n`

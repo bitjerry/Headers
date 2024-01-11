@@ -10,13 +10,10 @@
  */
 package su.gov.headers.curl;
 
-import com.intellij.openapi.diagnostic.Logger;
 import su.gov.headers.scripts.objects.JSArrayWarp;
 import su.gov.headers.scripts.objects.JSObjectWarp;
 
 public class CurlObject {
-
-    private final static Logger LOGGER = Logger.getInstance(CurlObject.class);
 
     private final JSObjectWarp rootObject;
 
@@ -64,26 +61,29 @@ public class CurlObject {
     }
 
     public JSObjectWarp getParams() {
-        if (params == null) {
-            params = JSObjectWarp.newObject();
-            rootObject.set("params", params.getObject());
+        if (params != null) {
+            return params;
         }
+        params = JSObjectWarp.newObject();
+        rootObject.set("params", params.getObject());
         return params;
     }
 
     public JSObjectWarp getHeaders() {
-        if (headers == null) {
-            headers = JSObjectWarp.newObject();
-            rootObject.set("headers", headers.getObject());
+        if (headers != null) {
+            return headers;
         }
+        headers = JSObjectWarp.newObject();
+        rootObject.set("headers", headers.getObject());
         return headers;
     }
 
     public JSObjectWarp getCookies() {
-        if (cookies == null) {
-            cookies = JSObjectWarp.newObject();
-            rootObject.set("cookies", cookies.getObject());
+        if (cookies != null) {
+            return cookies;
         }
+        cookies = JSObjectWarp.newObject();
+        rootObject.set("cookies", cookies.getObject());
         return cookies;
     }
 
@@ -96,11 +96,12 @@ public class CurlObject {
     }
 
     public Form getForm() {
-        if (form == null) {
-            JSArrayWarp jsArrayWarp = JSArrayWarp.newObject();
-            form = new Form(jsArrayWarp);
-            rootObject.set("form", jsArrayWarp.getObject());
+        if (form != null) {
+            return form;
         }
+        JSArrayWarp jsArrayWarp = JSArrayWarp.newObject();
+        form = new Form(jsArrayWarp);
+        rootObject.set("form", jsArrayWarp.getObject());
         return form;
     }
 

@@ -14,8 +14,7 @@ function transformForm(input) {
                 formData.push(`${escapeString(item.name)}: ${item.value}`)
                 return
             }
-        }
-        else {
+        } else {
             item.value = escapeString(item.value)
         }
         let params = []

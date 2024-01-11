@@ -32,11 +32,11 @@ public class JSArrayWarp extends JSObjectWarp {
     }
 
 
-    public static JSArrayWarp newObject()  {
+    public static JSArrayWarp newObject() {
         return new JSArrayWarp((ScriptObjectMirror) objConstructor.newObject());
     }
 
-    public void append(Object o){
+    public void append(Object o) {
         Object length = get("length");
         set(String.valueOf(length), o);
     }

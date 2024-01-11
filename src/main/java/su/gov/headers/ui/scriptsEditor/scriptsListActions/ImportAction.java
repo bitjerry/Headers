@@ -49,23 +49,23 @@ public class ImportAction extends AnAction {
         );
 
         VirtualFile file = FileChooser.chooseFile(descriptor, scriptsListPanel, null, null);
-        if (file == null){
+        if (file == null) {
             return;
         }
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             TransformScriptModel[] models = objectMapper.readValue(file.getInputStream(), TransformScriptModel[].class);
-            for (TransformScriptModel model : models){
+            for (TransformScriptModel model : models) {
                 scriptsListPanel.setItem(model);
             }
             Messages.showInfoMessage(scriptsListPanel, HeadersBundle.message("settings.scripts.import.success.message"), HeadersBundle.message("settings.scripts.import.success.title"));
-        } catch (JsonParseException ex){
+        } catch (JsonParseException ex) {
             LOGGER.error(ex);
             Messages.showErrorDialog(scriptsListPanel, HeadersBundle.message("settings.scripts.import.failure.message.invalid.json", Website.ISSUES), HeadersBundle.message("settings.scripts.import.failure.title"));
-        } catch (JsonMappingException ex){
+        } catch (JsonMappingException ex) {
             LOGGER.error(ex);
             Messages.showErrorDialog(scriptsListPanel, HeadersBundle.message("settings.scripts.import.failure.message.invalid.scripts", Website.ISSUES), HeadersBundle.message("settings.scripts.import.failure.title"));
-        }  catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.error(ex);
             Messages.showErrorDialog(scriptsListPanel, HeadersBundle.message("settings.scripts.import.failure.message", Website.ISSUES), HeadersBundle.message("settings.scripts.import.failure.title"));
         }

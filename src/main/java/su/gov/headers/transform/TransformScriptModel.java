@@ -22,7 +22,7 @@ public class TransformScriptModel {
 
     private final static String TEMPLATE_SCRIPT = ResourceUtils.read("/scripts/template.js");
 
-    private final String id;
+    private String id;
     private String name;
     private String scriptContent;
 
@@ -54,6 +54,10 @@ public class TransformScriptModel {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Transient

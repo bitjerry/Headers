@@ -1,5 +1,4 @@
 /**
- *
  * @Time: 2021/12/28 21:38
  * @author Mr.lin
  * @File: Headers.java
@@ -20,39 +19,35 @@ public class HeaderAction extends TransformAction {
 
     private static final Logger LOGGER = Logger.getInstance(HeaderAction.class);
 
-    private static void parseHeader(String head, HashMap<String, String> headMap){
+    private static void parseHeader(String head, HashMap<String, String> headMap) {
         String key;
         String[] valueParts;
         String[] headerParts = head.split("\\s", 2);
-        if ( headerParts.length != 2 ){
+        if (headerParts.length != 2) {
             return;
         }
         String firstPart = headerParts[0];
         String lastPart = headerParts[1];
-        if (lastPart.isEmpty()){
+        if (lastPart.isEmpty()) {
             return;
-        }
-        else if (firstPart.isEmpty()){
+        } else if (firstPart.isEmpty()) {
             parseHeader(lastPart, headMap);
             return;
         }
         if (firstPart.endsWith(":")) {
             key = firstPart.substring(0, firstPart.length() - 1);
-        }
-        else if (lastPart.startsWith(":")){
+        } else if (lastPart.startsWith(":")) {
             key = firstPart;
             lastPart = lastPart.substring(1).trim();
-        }
-        else {
+        } else {
             key = firstPart;
         }
 
         valueParts = lastPart.split("\\s*?\n\\s*", 2);
-        if ( valueParts.length == 2 ){
+        if (valueParts.length == 2) {
             headMap.put(key, valueParts[0].trim());
             parseHeader(valueParts[1], headMap);
-        }
-        else {
+        } else {
             headMap.put(key, lastPart.trim());
         }
     }
@@ -64,7 +59,7 @@ public class HeaderAction extends TransformAction {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(headers);
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             LOGGER.error("Transform request headers failure", e);
             NotificationUtils.error(HeadersBundle.message("error.transform.header", e.getMessage()), project);
         }

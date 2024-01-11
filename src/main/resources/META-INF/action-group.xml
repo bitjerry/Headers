@@ -2,35 +2,36 @@
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup displayType="BALLOON" id="Headers Plugin Welcome" isLogByDefault="false"/>
         <notificationGroup displayType="TOOL_WINDOW" id="Headers Plugin" isLogByDefault="true"/>
-        <applicationService serviceImplementation="su.gov.headers.setting.SettingsPersistentState" />
+        <applicationService serviceImplementation="su.gov.headers.setting.SettingsPersistentState"/>
         <postStartupActivity implementation="su.gov.headers.HeadersPlugin"/>
         <applicationConfigurable
-            parentId="tools"
-            instance="su.gov.headers.setting.SettingsConfigurable"
-            displayName="Headers"/>
+                parentId="tools"
+                instance="su.gov.headers.setting.SettingsConfigurable"
+                displayName="Headers"/>
     </extensions>
     <actions>
-<!--        <action class="su.gov.headers.actions.curlAction.CurlGroup" text="Curl">-->
-<!--            <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
-<!--            &lt;!&ndash;            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>&ndash;&gt;-->
-<!--        </action>-->
+        <!--        <action class="su.gov.headers.actions.curlAction.CurlGroup" text="Curl">-->
+        <!--            <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
+        <!--            &lt;!&ndash;            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>&ndash;&gt;-->
+        <!--        </action>-->
         <group id="Headers.Group.Main" text="Headers" popup="true">
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="$Paste"/>
 
-            <group id="Headers.Group.CurlGroup" text="Curl" popup="true"
+            <group id="Headers.Group.CurlGroup" text="Curl"
                    description="Generate code based on the curl command"
-                   class="su.gov.headers.actions.curlAction.CurlGroup"
+                   popup="true"
             />
+
             <action class="su.gov.headers.actions.HeaderAction" text="Headers">
-<!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
+                <!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
                 <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift H"/>-->
             </action>
             <action class="su.gov.headers.actions.CookieAction" text="Cookies">
-<!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
+                <!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
                 <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift C"/>-->
             </action>
             <action class="su.gov.headers.actions.FormDataAction" text="FormData">
-<!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
+                <!--                <add-to-group group-id="Headers.Group.Main" anchor="last"/>-->
                 <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift F"/>-->
             </action>
 

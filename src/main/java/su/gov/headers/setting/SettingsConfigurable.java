@@ -1,9 +1,11 @@
 package su.gov.headers.setting;
 
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.options.SearchableConfigurable;
 import com.intellij.openapi.util.Disposer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import su.gov.headers.HeadersPlugin;
 import su.gov.headers.ui.SettingsPanel;
 
 import javax.swing.*;
@@ -31,7 +33,7 @@ public class SettingsConfigurable implements SearchableConfigurable {
 
     @Override
     public boolean isModified() {
-        if(settingsPanel == null){
+        if (settingsPanel == null) {
             return false;
         }
         return !settingsPanel.getTransformModels().equals(settingsState.getTransformModels());
@@ -48,7 +50,7 @@ public class SettingsConfigurable implements SearchableConfigurable {
     }
 
     @Override
-    public @NotNull String getId(){
+    public @NotNull String getId() {
         return getHelpTopic();
     }
 
@@ -65,6 +67,9 @@ public class SettingsConfigurable implements SearchableConfigurable {
 
     @Override
     public void apply() {
+        ActionManager manager = ActionManager.getInstance();
+        HeadersPlugin.unRegisterActions(manager, settingsState.getTransformModels());
         settingsState.setTransformModels(settingsPanel.getTransformModels());
+        HeadersPlugin.registerActions(manager, settingsState.getTransformModels());
     }
 }

@@ -15,6 +15,7 @@ import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import com.intellij.util.xmlb.annotations.Transient;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import su.gov.headers.transform.TransformScriptModel;
@@ -24,23 +25,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 @State(name = "HeadersSettings", storages = {@Storage(value = "headersSettings.xml")})
-public class SettingsPersistentState implements PersistentStateComponent<SettingsPersistentState>{
-
-    private static SettingsPersistentState INSTANCE;
+public class SettingsPersistentState implements PersistentStateComponent<SettingsPersistentState> {
 
     private String version;
 
-    private List<TransformScriptModel> transformScriptModels = new ArrayList<>(){{
+    private List<TransformScriptModel> transformScriptModels = new ArrayList<>() {{
         add(new TransformScriptModel("aiohttp", ResourceUtils.read("/scripts/example/aiohttp.js")));
         add(new TransformScriptModel("requests", ResourceUtils.read("/scripts/example/requests.js")));
         add(new TransformScriptModel("okhttp", ResourceUtils.read("/scripts/example/okhttp.js")));
     }};
 
+    private static SettingsPersistentState state;
+
+    @Transient
     public static SettingsPersistentState getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = ApplicationManager.getApplication().getService(SettingsPersistentState.class);
+        if (state == null) {
+            state = ApplicationManager.getApplication().getService(SettingsPersistentState.class);
         }
-        return INSTANCE;
+        return state;
     }
 
     public String getVersion() {
@@ -52,8 +54,8 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
     }
 
     public List<TransformScriptModel> getTransformModels() {
-        for (int i=transformScriptModels.size()-1; i>=0; i--){
-            if(transformScriptModels.get(i) == null){
+        for (int i = transformScriptModels.size() - 1; i >= 0; i--) {
+            if (transformScriptModels.get(i) == null) {
                 transformScriptModels.remove(i);
             }
         }

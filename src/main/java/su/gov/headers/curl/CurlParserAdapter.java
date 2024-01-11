@@ -10,7 +10,6 @@
  */
 package su.gov.headers.curl;
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import su.gov.headers.curl.annotation.CurlOptionHandler;
 import su.gov.headers.curl.annotation.Parser;
@@ -28,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class CurlParserAdapter {
 
-    private static final Map<Class<? extends Annotation>, Map<String, Method>> handlerMap = new HashMap<>(){
+    private static final Map<Class<? extends Annotation>, Map<String, Method>> handlerMap = new HashMap<>() {
         {
             put(Parser.class, new HashMap<>());
             put(PreParser.class, new HashMap<>());
@@ -36,7 +35,7 @@ public class CurlParserAdapter {
         }
     };
 
-    private static final Map<Class<? extends Annotation>, Map<Pattern, Method>> regexHandlerMap = new HashMap<>(){
+    private static final Map<Class<? extends Annotation>, Map<Pattern, Method>> regexHandlerMap = new HashMap<>() {
         {
             put(Parser.class, new HashMap<>());
             put(PreParser.class, new HashMap<>());
@@ -45,7 +44,6 @@ public class CurlParserAdapter {
     };
 
     public static final Pattern COMMAND_PATTERN = Pattern.compile("'((?:[^\\\\']|\\\\.)*)'|\"((?:[^\\\\\"]|\\\\.)*)\"|([^\\s\"']+)");
-    private final static Logger LOGGER = Logger.getInstance(CurlParserAdapter.class);
 
     static {
         Method[] methods = CurlParser.class.getDeclaredMethods();
@@ -58,17 +56,15 @@ public class CurlParserAdapter {
             method.setAccessible(true);
             Class<?> parserAnnotation = Parser.class;
             if (method.isAnnotationPresent(PreParser.class)) {
-                parserAnnotation =  PreParser.class;
-            }
-            else if(method.isAnnotationPresent(PostParser.class)){
-                parserAnnotation =  PostParser.class;
+                parserAnnotation = PreParser.class;
+            } else if (method.isAnnotationPresent(PostParser.class)) {
+                parserAnnotation = PostParser.class;
             }
             String regex = handlerAnnotation.regex();
-            if (!StringUtil.isEmpty(regex)){
+            if (!StringUtil.isEmpty(regex)) {
                 regexHandlerMap.get(parserAnnotation).put(Pattern.compile(regex), method);
-            }
-            else {
-                for (String option : handlerAnnotation.options()){
+            } else {
+                for (String option : handlerAnnotation.options()) {
                     handlerMap.get(parserAnnotation).put(option, method);
                 }
             }
@@ -81,14 +77,13 @@ public class CurlParserAdapter {
         if (handlers.isEmpty() && regexHandlers.isEmpty()) {
             return;
         }
-        for (int i=1;i< tokens.size();i++) {
+        for (int i = 1; i < tokens.size(); i++) {
             Method handle = handlers.get(tokens.get(i));
             if (handle != null) {
                 int parameterCount = handle.getParameterCount();
                 handle.invoke(parser, tokens.subList(i + 1, i + parameterCount + 1).toArray());
                 i += parameterCount;
-            }
-            else {
+            } else {
                 for (Map.Entry<Pattern, Method> entry : regexHandlers.entrySet()) {
                     if (entry.getKey().matcher(tokens.get(i)).matches()) {
                         entry.getValue().invoke(parser, tokens.get(i));
@@ -107,9 +102,9 @@ public class CurlParserAdapter {
         Matcher matcher = COMMAND_PATTERN.matcher(curlCommand);
         List<String> tokens = new ArrayList<>();
         while (matcher.find()) {
-            for (int i = 1; i <= matcher.groupCount(); i++){
+            for (int i = 1; i <= matcher.groupCount(); i++) {
                 String capturedGroup = matcher.group(i);
-                if (capturedGroup != null){
+                if (capturedGroup != null) {
                     tokens.add(capturedGroup);
                     break;
                 }

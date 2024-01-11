@@ -8,7 +8,7 @@
  * @Version V1.0.0
  * @Copyright © 2023 by Mr.lin. All rights reserved.
  */
-package su.gov.headers.actions.curlAction;
+package su.gov.headers.actions;
 
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
@@ -30,7 +30,6 @@ public class CurlAction extends TransformScriptAction {
     public CurlAction(TransformScriptModel model) {
         super(model);
     }
-
 
     @Override
     public String transform(String curlCommand) {
@@ -63,7 +62,7 @@ public class CurlAction extends TransformScriptAction {
             return null;
         }
 
-        try(Scope scope = Scope.enter()){
+        try (Scope scope = Scope.enter()) {
             script.eval(scope);
             String result = scope.call("transform", null, curlObject.getRoot().getObject());
             if (result == null) {
@@ -71,8 +70,7 @@ public class CurlAction extends TransformScriptAction {
                 return null;
             }
             return result;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("An error occurred while running the script.", e);
             NotificationUtils.error(HeadersBundle.message("error.transform.script.runtime"), project);
             return null;
