@@ -45,7 +45,6 @@ public class CurlParserAdapter {
     };
 
     public static final Pattern COMMAND_PATTERN = Pattern.compile("'((?:[^\\\\']|\\\\.)*)'|\"((?:[^\\\\\"]|\\\\.)*)\"|([^\\s\"']+)");
-    private final static Logger LOGGER = Logger.getInstance(CurlParserAdapter.class);
 
     static {
         Method[] methods = CurlParser.class.getDeclaredMethods();
