@@ -10,7 +10,6 @@
  */
 package su.gov.headers.curl;
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import su.gov.headers.curl.annotation.CurlOptionHandler;
 import su.gov.headers.curl.annotation.Parser;
