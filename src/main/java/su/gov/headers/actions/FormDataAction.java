@@ -1,5 +1,4 @@
 /**
- *
  * @Time: 2022/1/10 20:39
  * @Author: Mr.lin
  * @File: FormData.java
@@ -24,16 +23,16 @@ public class FormDataAction extends TransformAction {
         LinkedHashMap<String, String> formDataMap = new LinkedHashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         String[] formDataItems = text.split("\\s*&\\s*");
-        for (String formDataItem : formDataItems){
+        for (String formDataItem : formDataItems) {
             String[] formDataKV = formDataItem.split("\\s*=\\s*", 2);
-            if (formDataKV.length != 2){
+            if (formDataKV.length != 2) {
                 break;
             }
             formDataMap.put(formDataKV[0], formDataKV[1]);
         }
-        try{
+        try {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(formDataMap);
-        }catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             LOGGER.error("Transform request form data failure", e);
             NotificationUtils.error(HeadersBundle.message("error.transform.form.data", e.getMessage()), project);
         }

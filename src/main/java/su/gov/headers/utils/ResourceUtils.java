@@ -22,7 +22,7 @@ public class ResourceUtils {
     private static final Logger LOGGER = Logger.getInstance(ResourceUtils.class);
 
     public static String read(String resourcePath) {
-        if(!resourcePath.startsWith("/")){
+        if (!resourcePath.startsWith("/")) {
             resourcePath = "/" + resourcePath;
         }
         StringBuilder content = new StringBuilder();

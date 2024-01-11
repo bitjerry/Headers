@@ -13,7 +13,6 @@ package su.gov.headers;
 import com.intellij.ide.BrowserUtil;
 import com.intellij.ide.plugins.IdeaPluginDescriptor;
 import com.intellij.ide.plugins.PluginManagerCore;
-import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.impl.NotificationFullContent;
@@ -40,15 +39,12 @@ public class HeadersPlugin implements StartupActivity {
     private static final Logger LOGGER = Logger.getInstance(HeadersPlugin.class);
     public static final String PLUGIN_ID = "su.gov.Header";
 
-    public static final String VERSION_PROPERTY = PLUGIN_ID + ".version";
-
     public static final PluginId ID = PluginId.getId(PLUGIN_ID);
 
     public @NotNull
     static final IdeaPluginDescriptor DESCRIPTOR = Objects.requireNonNull(PluginManagerCore.getPlugin(ID));
 
     private static DefaultActionGroup CURL_ACTION_GROUP;
-
 
 
     public static void registerActions(ActionManager manager, List<TransformScriptModel> models) {

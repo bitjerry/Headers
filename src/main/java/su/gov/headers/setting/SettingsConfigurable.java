@@ -35,7 +35,7 @@ public class SettingsConfigurable implements SearchableConfigurable {
 
     @Override
     public boolean isModified() {
-        if(settingsPanel == null){
+        if (settingsPanel == null) {
             return false;
         }
         return !settingsPanel.getTransformModels().equals(settingsState.getTransformModels());
@@ -52,7 +52,7 @@ public class SettingsConfigurable implements SearchableConfigurable {
     }
 
     @Override
-    public @NotNull String getId(){
+    public @NotNull String getId() {
         return getHelpTopic();
     }
 

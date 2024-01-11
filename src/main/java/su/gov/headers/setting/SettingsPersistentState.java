@@ -25,11 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @State(name = "HeadersSettings", storages = {@Storage(value = "headersSettings.xml")})
-public class SettingsPersistentState implements PersistentStateComponent<SettingsPersistentState>{
+public class SettingsPersistentState implements PersistentStateComponent<SettingsPersistentState> {
 
     private String version;
 
-    private List<TransformScriptModel> transformScriptModels = new ArrayList<>(){{
+    private List<TransformScriptModel> transformScriptModels = new ArrayList<>() {{
         add(new TransformScriptModel("aiohttp", ResourceUtils.read("/scripts/example/aiohttp.js")));
         add(new TransformScriptModel("requests", ResourceUtils.read("/scripts/example/requests.js")));
         add(new TransformScriptModel("okhttp", ResourceUtils.read("/scripts/example/okhttp.js")));
@@ -39,7 +39,7 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
 
     @Transient
     public static SettingsPersistentState getInstance() {
-        if (state == null){
+        if (state == null) {
             state = ApplicationManager.getApplication().getService(SettingsPersistentState.class);
         }
         return state;
@@ -54,8 +54,8 @@ public class SettingsPersistentState implements PersistentStateComponent<Setting
     }
 
     public List<TransformScriptModel> getTransformModels() {
-        for (int i=transformScriptModels.size()-1; i>=0; i--){
-            if(transformScriptModels.get(i) == null){
+        for (int i = transformScriptModels.size() - 1; i >= 0; i--) {
+            if (transformScriptModels.get(i) == null) {
                 transformScriptModels.remove(i);
             }
         }

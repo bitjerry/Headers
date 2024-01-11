@@ -62,7 +62,7 @@ public class CurlAction extends TransformScriptAction {
             return null;
         }
 
-        try(Scope scope = Scope.enter()){
+        try (Scope scope = Scope.enter()) {
             script.eval(scope);
             String result = scope.call("transform", null, curlObject.getRoot().getObject());
             if (result == null) {
@@ -70,8 +70,7 @@ public class CurlAction extends TransformScriptAction {
                 return null;
             }
             return result;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error("An error occurred while running the script.", e);
             NotificationUtils.error(HeadersBundle.message("error.transform.script.runtime"), project);
             return null;

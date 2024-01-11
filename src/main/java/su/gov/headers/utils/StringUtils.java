@@ -12,7 +12,7 @@ package su.gov.headers.utils;
 
 public class StringUtils {
 
-    public static String convertToLF(String s){
+    public static String convertToLF(String s) {
         return s.replaceAll("\r\n?", "\n");
     }
 }

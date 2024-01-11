@@ -10,7 +10,6 @@
  */
 package su.gov.headers.transform;
 
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import su.gov.headers.HeadersBundle;
@@ -35,9 +34,9 @@ public abstract class TransformScriptAction extends TransformAction {
 
 
     @Override
-    public void writeTransformedCode(String code){
+    public void writeTransformedCode(String code) {
         code = transform(code);
-        if (code == null){
+        if (code == null) {
             return;
         }
         if (StringUtil.isEmpty(code)) {
@@ -46,17 +45,17 @@ public abstract class TransformScriptAction extends TransformAction {
         }
 
         code = StringUtils.convertToLF(code);
-        if (StringUtil.isEmpty(code)){
+        if (StringUtil.isEmpty(code)) {
             NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"), project);
             return;
         }
-        if (transformScriptModel.getKeepIndent()){
+        if (transformScriptModel.getKeepIndent()) {
             int startColumn = editor.getCaretModel().getPrimaryCaret().getSelectionStartPosition().column;
-            String padding = startColumn > 0 ? String.format("%"+startColumn+"s", " ") : "";
-            code = code.replace("\n", "\n"+padding);
+            String padding = startColumn > 0 ? String.format("%" + startColumn + "s", " ") : "";
+            code = code.replace("\n", "\n" + padding);
         }
         replaceSelectedCode(code);
-        if (transformScriptModel.getAutoReformat()){
+        if (transformScriptModel.getAutoReformat()) {
             reformatSelectedCode(code);
         }
     }

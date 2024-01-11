@@ -77,11 +77,10 @@ public abstract class TransformAction extends AnAction implements Transform {
 
     public void writeTransformedCode(String code) {
         code = transform(code);
-        if (code != null){
+        if (code != null) {
             if (StringUtil.isEmpty(code)) {
                 NotificationUtils.warning(HeadersBundle.message("warning.transform.result.empty"), project);
-            }
-            else {
+            } else {
                 code = StringUtils.convertToLF(code);
                 replaceSelectedCode(code);
                 reformatSelectedCode(code);

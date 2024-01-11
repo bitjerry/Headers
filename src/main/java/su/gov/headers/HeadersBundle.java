@@ -23,13 +23,13 @@ public final class HeadersBundle extends AbstractBundle {
 
     public static final String BUNDLE = "messages.HeadersBundle";
 
-    public static final  HeadersBundle INSTANCE = new HeadersBundle();
+    public static final HeadersBundle INSTANCE = new HeadersBundle();
 
     public HeadersBundle() {
         super(BUNDLE);
     }
 
-    public static String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, Object ... params) {
+    public static String message(@NotNull @PropertyKey(resourceBundle = BUNDLE) String key, Object... params) {
         return INSTANCE.getMessage(key, params);
     }
 
