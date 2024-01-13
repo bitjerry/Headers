@@ -43,7 +43,7 @@ public class CurlParserAdapter {
         }
     };
 
-    public static final Pattern COMMAND_PATTERN = Pattern.compile("'((?:[^\\\\']|\\\\.)*)'|\"((?:[^\\\\\"]|\\\\.)*)\"|([^\\s\"']+)");
+    public static final Pattern COMMAND_PATTERN = Pattern.compile("'((?>[^\\\\']|\\\\.)*+)'|\"((?>[^\\\\\"]|\\\\.)*+)\"|([^\\s\"']+)");
 
     static {
         Method[] methods = CurlParser.class.getDeclaredMethods();
@@ -96,7 +96,7 @@ public class CurlParserAdapter {
     }
 
 
-    public static CurlObject parse(String curlCommand) throws Exception {
+    public static CurlObject parse(String curlCommand) throws Exception, Error {
         CurlObject curlObject = new CurlObject();
         CurlParser parser = new CurlParser(curlObject);
         Matcher matcher = COMMAND_PATTERN.matcher(curlCommand);
