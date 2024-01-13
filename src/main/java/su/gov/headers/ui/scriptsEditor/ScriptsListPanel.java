@@ -17,6 +17,7 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.ui.AddEditDeleteListPanel;
 import com.intellij.ui.ToolbarDecorator;
 import org.jetbrains.annotations.Nullable;
+import su.gov.headers.HeadersBundle;
 import su.gov.headers.setting.SettingsPersistentState;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.ui.SettingsPanel;
@@ -128,8 +129,8 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
         }
         String input = Messages.showInputDialog(
                 this,
-                "Set new template name:",
-                "JavaScript Template",
+                HeadersBundle.message("settings.scripts.edit.dialog.messages"),
+                HeadersBundle.message("settings.scripts.edit.dialog.title"),
                 Messages.getQuestionIcon(),
                 model.getName(),
                 new InputValidatorEx() {
@@ -146,7 +147,7 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
                     @Override
                     public String getErrorText(String inputString) {
                         if (!checkInput(inputString)) {
-                            return "Template name cannot be empty";
+                            return HeadersBundle.message("settings.scripts.edit.dialog.error");
                         }
                         return null;
                     }
