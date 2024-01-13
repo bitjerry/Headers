@@ -51,7 +51,22 @@ function transform(input) {
     }
 
     if (input.body) {
-        pyCode.data = escapeString(input.body)
+        if (input.headers && input.headers["content-type"]) {
+            if (input.headers["content-type"].indexOf("x-www-form-urlencoded") !== -1) {
+                let body = {}
+                for (let item of input.body.split("&")) {
+                    let kv = item.split("=")
+                    body[kv[0]] = kv[1]
+                }
+                pyCode.data = JSON.stringify(body, null, 4)
+            } else if (input.headers["content-type"].indexOf("json") !== -1) {
+                pyCode.json = JSON.stringify(JSON.parse(input.body), null, 4);
+            } else {
+                pyCode.data = escapeString(input.body)
+            }
+        } else {
+            pyCode.data = escapeString(input.body)
+        }
     }
 
     let codeBlock = ""
