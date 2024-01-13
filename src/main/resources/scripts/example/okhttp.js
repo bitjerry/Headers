@@ -37,9 +37,9 @@ function transform(input) {
     let javaCode = "OkHttpClient client = new OkHttpClient();\n\n"
 
     let bodyField = undefined
-    if (input.body) {
+    if (input.data) {
         bodyField = "body"
-        javaCode += `String body = ${escapeString(input.body)};\n\n`
+        javaCode += `String body = ${escapeString(input.data)};\n\n`
     } else if (input.form) {
         bodyField = "formData"
         javaCode += transformForm(input)

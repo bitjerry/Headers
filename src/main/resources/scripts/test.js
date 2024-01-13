@@ -36,7 +36,7 @@ var curlTestObj = {
             "type": "text/plain"
         }
     ],
-    "body": "[{\n" +
+    "data": "[{\n" +
         "    \"error\": 0,\n" +
         "    \"status\": \"success\",\n" +
         "    \"date\": \"9999-12-31\"\n" +

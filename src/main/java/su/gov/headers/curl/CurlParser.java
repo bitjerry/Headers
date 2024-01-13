@@ -111,7 +111,6 @@ public class CurlParser {
             parameterHandler(data);
             return;
         }
-
         Object method = curlObject.getMethod();
         if ("GET".equals(method) || "HEAD".equals(method)) {
             methodHandler("POST");
