@@ -77,7 +77,7 @@ function transform(input) {
         params += `${key} = ${key}, `
     }
 
-    return `${codeBlock}response = requests.${input.method.toLowerCase()}(${params}verify=False)
-response.raise_for_status()
-print(response.text)`
+    return `${codeBlock}with requests.${input.method.toLowerCase()}(${params}verify=False) as resp:
+    resp.raise_for_status()
+    print(resp.text)`
 }
