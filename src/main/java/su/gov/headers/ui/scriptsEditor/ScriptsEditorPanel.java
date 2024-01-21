@@ -126,11 +126,11 @@ public class ScriptsEditorPanel implements Disposable {
                         new Script(scriptEditor.getDocument().getText()).eval(scope);
                         testResult = scope.call("transform", null, scope.getAttribute("curlTestObj"));
                         if (testResult == null) {
-                            testResult = "// Plugin error: " + HeadersBundle.message("error.transform.no.transform.function");
+                            testResult = "// Warning: " + HeadersBundle.message("error.transform.no.transform.function");
                         }
                     } catch (Exception ex) {
                         LOGGER.error("Error while executing curl test", ex);
-                        testResult = "// Plugin error: \n" + ex;
+                        testResult = "// JavaScript Error: \n" + ex;
                     }
                     setPreviewContent(testResult);
                 }
