@@ -6,6 +6,10 @@ function isEmpty(value) {
     return !value || typeof value == 'object' && Object.keys(value).length === 0
 }
 
+function decodeURIData(value) {
+    return typeof value == "string" ? decodeURI(value) : value
+}
+
 function transformForm(input) {
     let formData = []
     input.form.forEach((item, index) => {
@@ -55,7 +59,7 @@ function transform(input) {
     }
 
     if (!isEmpty(input.params)) {
-        pyCode.push(`params = ${JSON.stringify(input.params, null, 4)}`)
+        pyCode.push(`params = ${JSON.stringify(input.params, (k, v) => decodeURIData(v), 4)}`)
         params.push("params = params")
     }
 
@@ -65,12 +69,12 @@ function transform(input) {
                 let body = {}
                 for (let item of input.data.split("&")) {
                     let kv = item.split("=")
-                    body[kv[0]] = kv[1]
+                    body[kv[0]] = decodeURIData(kv[1])
                 }
                 pyCode.push(`data = ${JSON.stringify(body, null, 4)}`)
                 params.push("data = data")
             } else if (input.headers["content-type"].indexOf("json") !== -1) {
-                pyCode.push(`json = ${JSON.stringify(JSON.parse(input.data), null, 4)}`)
+                pyCode.push(`json = ${JSON.stringify(JSON.parse(input.data), (k, v) => decodeURIData(v), 4)}`)
                 params.push(`json = json`)
             } else {
                 pyCode.push(`data = ${escapeString(input.data)}`)
