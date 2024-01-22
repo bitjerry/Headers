@@ -113,6 +113,7 @@ public class TransformScriptModel {
         return model;
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     public @NotNull TransformScriptModel clone() {
         TransformScriptModel model = new TransformScriptModel();
         model.setName(this.name);
