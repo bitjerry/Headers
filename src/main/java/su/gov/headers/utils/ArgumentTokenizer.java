@@ -69,7 +69,7 @@ public abstract class ArgumentTokenizer {
      * Tokenizes the given String into String tokens.
      *
      * @param arguments A String containing one or more command-line style arguments to be tokenized.
-     * @param stringify whether or not to include escape special characters
+     * @param stringify whether to include escape special characters
      * @return A list of parsed and properly escaped arguments.
      */
     public static List<String> tokenize(String arguments, boolean stringify) {

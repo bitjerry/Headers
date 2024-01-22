@@ -33,9 +33,9 @@ public class ImportAction extends AnAction {
     private final ScriptsListPanel scriptsListPanel;
     private final static Logger LOGGER = Logger.getInstance(ImportAction.class);
 
-    public ImportAction(ScriptsListPanel scriptList) {
+    public ImportAction(ScriptsListPanel scriptsListPanel) {
         super(HeadersBundle.message("settings.scripts.import.title"), HeadersBundle.message("settings.scripts.import.description"), AllIcons.Actions.Install);
-        this.scriptsListPanel = scriptList;
+        this.scriptsListPanel = scriptsListPanel;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ImportAction extends AnAction {
             ObjectMapper objectMapper = new ObjectMapper();
             TransformScriptModel[] models = objectMapper.readValue(file.getInputStream(), TransformScriptModel[].class);
             for (TransformScriptModel model : models) {
-                scriptsListPanel.setItem(model);
+                scriptsListPanel.addItem(model);
             }
             Messages.showInfoMessage(scriptsListPanel, HeadersBundle.message("settings.scripts.import.success.message"), HeadersBundle.message("settings.scripts.import.success.title"));
         } catch (JsonParseException ex) {
