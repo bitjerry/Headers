@@ -82,6 +82,10 @@ public class ScriptsListPanel extends AddDeleteListPanel<TransformScriptModel> {
         myListModel.remove(index);
     }
 
+    public void setSelectionInterval(int index0, int index1) {
+        myList.getSelectionModel().setSelectionInterval(index0, index1);
+    }
+
     @FunctionalInterface
     public interface TransformScriptModelProcessor {
 

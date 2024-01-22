@@ -45,6 +45,7 @@ public class MoveAction extends MouseInputAdapter {
             TransformScriptModel model = scriptsListPanel.getItem(dragSourceIndex);
             scriptsListPanel.removeItem(dragSourceIndex);
             scriptsListPanel.insertItem(dragTargetIndex, model);
+            scriptsListPanel.setSelectionInterval(dragTargetIndex, dragTargetIndex);
         }
 
         mouseDragging = false;

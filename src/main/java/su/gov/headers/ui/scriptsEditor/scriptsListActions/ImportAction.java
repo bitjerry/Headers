@@ -34,7 +34,7 @@ public class ImportAction extends AnAction {
     private final static Logger LOGGER = Logger.getInstance(ImportAction.class);
 
     public ImportAction(ScriptsListPanel scriptsListPanel) {
-        super(HeadersBundle.message("settings.scripts.import.title"), HeadersBundle.message("settings.scripts.import.description"), AllIcons.Actions.Install);
+        super(HeadersBundle.message("settings.scripts.import.title"), HeadersBundle.message("settings.scripts.import.description"), AllIcons.ToolbarDecorator.Import);
         this.scriptsListPanel = scriptsListPanel;
     }
 
