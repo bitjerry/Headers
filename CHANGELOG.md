@@ -2,8 +2,6 @@
 
 ## [Unreleased]
 
-## [2.0.3] - 2024-02-02
-
 - Supports generating code based on curl command
 - Support custom code generation scripts
 - 支持根据curl命令生成代码
