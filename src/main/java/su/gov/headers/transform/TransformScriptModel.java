@@ -104,8 +104,18 @@ public class TransformScriptModel {
     // end of getters and setters
 
 
-    public TransformScriptModel copy() {
+    public @NotNull TransformScriptModel copy() {
         TransformScriptModel model = new TransformScriptModel(this.id);
+        model.setName(this.name);
+        model.setScriptContent(this.scriptContent);
+        model.setAutoReformat(this.autoReformat);
+        model.setKeepIndent(this.keepIndent);
+        return model;
+    }
+
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
+    public @NotNull TransformScriptModel clone() {
+        TransformScriptModel model = new TransformScriptModel();
         model.setName(this.name);
         model.setScriptContent(this.scriptContent);
         model.setAutoReformat(this.autoReformat);

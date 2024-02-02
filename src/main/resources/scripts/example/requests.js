@@ -2,6 +2,14 @@ function escapeString(input) {
     return `"${input.replaceAll("\"", "\\\\\"")}"`
 }
 
+function isEmpty(value) {
+    return !value || typeof value == 'object' && Object.keys(value).length === 0
+}
+
+function decodeURIData(value) {
+    return typeof value == "string" ? decodeURI(value) : value
+}
+
 function transformForm(input) {
     let formData = []
     input.form.forEach((item, index) => {
@@ -34,35 +42,51 @@ function transformForm(input) {
 }
 
 function transform(input) {
-    let pyCode = {}
+    let pyCode = []
+    let params = []
     if (!input.url) return "No url provided"
-    pyCode.url = escapeString(input.url)
+    pyCode.push(`url = ${escapeString(input.url)}`)
+    params.push("url = url")
 
-    if (input.headers) {
-        pyCode.headers = JSON.stringify(input.headers, null, 4)
+    if (!isEmpty(input.headers)) {
+        pyCode.push(`headers = ${JSON.stringify(input.headers, null, 4)}`)
+        params.push("headers = headers")
     }
 
-    if (input.form) {
-        pyCode.files = `{\n${transformForm(input).join(",\n")}\n}`
+    if (!isEmpty(input.form)) {
+        pyCode.push("files = " + `{\n${transformForm(input).join(",\n")}\n}`)
+        params.push("files = files")
     }
 
-    if (input.params) {
-        pyCode.params = JSON.stringify(input.params, null, 4)
+    if (!isEmpty(input.params)) {
+        pyCode.push(`params = ${JSON.stringify(input.params, (k, v) => decodeURIData(v), 4)}`)
+        params.push("params = params")
     }
 
-    if (input.body) {
-        pyCode.data = escapeString(input.body)
+    if (!isEmpty(input.data)) {
+        if (input.headers && input.headers["content-type"]) {
+            if (input.headers["content-type"].indexOf("x-www-form-urlencoded") !== -1) {
+                let body = {}
+                for (let item of input.data.split("&")) {
+                    let kv = item.split("=")
+                    body[kv[0]] = decodeURIData(kv[1])
+                }
+                pyCode.push(`data = ${JSON.stringify(body, null, 4)}`)
+                params.push("data = data")
+            } else if (input.headers["content-type"].indexOf("json") !== -1) {
+                pyCode.push(`json = ${JSON.stringify(JSON.parse(input.data), (k, v) => decodeURIData(v), 4)}`)
+                params.push(`json = json`)
+            } else {
+                pyCode.push(`data = ${escapeString(input.data)}`)
+                params.push("data = data")
+            }
+        } else {
+            pyCode.push(`data = ${escapeString(input.data)}`)
+            params.push("data = data")
+        }
     }
 
-    let codeBlock = ""
-    let params = ""
-
-    for (let key in pyCode) {
-        codeBlock += `${key} = ${pyCode[key]}\n`
-        params += `${key} = ${key}, `
-    }
-
-    return `${codeBlock}response = requests.${input.method.toLowerCase()}(${params}verify=False)
-response.raise_for_status()
-print(response.text)`
+    return `${pyCode.join("\n")}\n\nwith requests.${input.method.toLowerCase()}(${params.join(",")}, verify=False) as resp:
+    resp.raise_for_status()
+    print(resp.text)`
 }

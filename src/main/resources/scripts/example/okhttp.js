@@ -2,6 +2,10 @@ function escapeString(input) {
     return `"${input.replaceAll("\"", "\\\\\"")}"`
 }
 
+function isEmpty(value) {
+    return !value || typeof value == 'object' && Object.keys(value).length === 0
+}
+
 function transformForm(input) {
     let formData = "RequestBody formData = new MultipartBody.Builder()\n.setType(MultipartBody.FORM)\n"
     input.form.forEach((item, index) => {
@@ -37,17 +41,17 @@ function transform(input) {
     let javaCode = "OkHttpClient client = new OkHttpClient();\n\n"
 
     let bodyField = undefined
-    if (input.body) {
+    if (!isEmpty(input.data)) {
         bodyField = "body"
-        javaCode += `String body = ${escapeString(input.body)};\n\n`
-    } else if (input.form) {
+        javaCode += `String body = ${escapeString(input.data)};\n\n`
+    } else if (!isEmpty(input.form)) {
         bodyField = "formData"
         javaCode += transformForm(input)
     }
 
     javaCode += "Request request = new Request.Builder()\n"
 
-    if (input.params) {
+    if (!isEmpty(input.params)) {
         input.url += "?" + transformParams(input);
     }
     javaCode += `.url("${input.url}")\n`
@@ -58,7 +62,7 @@ function transform(input) {
         javaCode += `.${input.method.toLowerCase()}()\n`
     }
 
-    if (input.headers) {
+    if (!isEmpty(input.headers)) {
         for (let key in input.headers) {
             javaCode += `.addHeader("${key}", ${escapeString(input.headers[key])})\n`
         }

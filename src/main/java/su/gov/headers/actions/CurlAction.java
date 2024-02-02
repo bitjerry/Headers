@@ -36,7 +36,7 @@ public class CurlAction extends TransformScriptAction {
         CurlObject curlObject;
         try {
             curlObject = CurlParserAdapter.parse(curlCommand);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LOGGER.error("Cannot parse curl command.", e);
             NotificationUtils.error(HeadersBundle.message("error.transform.failure.parse.curl.command"), project);
             return null;

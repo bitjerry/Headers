@@ -26,9 +26,9 @@ public class CurlParser {
     private boolean forceGet;
     private final CurlObject curlObject;
 
-    private final static Pattern SEMICOLON_PATTERN = Pattern.compile("(?:\"(?:[^\\\\\"]|\\\\.)*\"|[^;\"]+)+");
+    private final static Pattern SEMICOLON_PATTERN = Pattern.compile("(?>\"(?>[^\\\\\"]|\\\\.)*\"|[^;\"]+)+");
 
-    private final static Pattern COLON_PATTERN = Pattern.compile("(\\S+?):\\s*(.*)");
+    private final static Pattern COLON_PATTERN = Pattern.compile("(\\S+?):\\s*(.+)");
 
     public CurlParser(CurlObject curlObject) {
         this.curlObject = curlObject;
@@ -105,16 +105,11 @@ public class CurlParser {
         curlObject.getHeaders().set("authorization", auth);
     }
 
-    @CurlOptionHandler(options = {"-d", "--data", "--data-ascii", "--data-raw", "--data-binary"})
+    @CurlOptionHandler(options = {"-d", "--data"})
     public void dataHandler(String data) {
         if (forceGet) {
             parameterHandler(data);
             return;
-        }
-
-        Object method = curlObject.getMethod();
-        if ("GET".equals(method) || "HEAD".equals(method)) {
-            methodHandler("POST");
         }
         JSObjectWarp headers = curlObject.getHeaders();
         if (JSObjectWarp.isEmpty(headers.get("content-type"))) {
@@ -122,10 +117,19 @@ public class CurlParser {
         }
         Object body = curlObject.getData();
         if (JSObjectWarp.isEmpty(body)) {
-            curlObject.setData(data);
+            dataRawHandler(data);
         } else {
             curlObject.setData(body + "&" + data);
         }
+    }
+
+    @CurlOptionHandler(options = {"--data-ascii", "--data-raw", "--data-binary"})
+    public void dataRawHandler(String data) {
+        Object method = curlObject.getMethod();
+        if ("GET".equals(method) || "HEAD".equals(method)) {
+            methodHandler("POST");
+        }
+        curlObject.setData(data);
     }
 
     @CurlOptionHandler(options = "--data-urlencode")
@@ -143,18 +147,19 @@ public class CurlParser {
         }
         curlObject.getHeaders().remove("content-type");
         CurlObject.Form form = curlObject.getForm();
-        final Matcher matcher = SEMICOLON_PATTERN.matcher(data);
-        if (matcher.find()) {
-            String[] kvPair = matcher.group().split("=", 2);
-            if (kvPair.length != 2) return;
-            JSObjectWarp formItem = form.get();
-            formItem.set("name", kvPair[0].trim());
-            formItem.set("value", kvPair[1].trim());
+        Matcher matcher = SEMICOLON_PATTERN.matcher(data);
+        if (!matcher.find()) {
+            return;
         }
+        String[] kvPair = matcher.group().split("=", 2);
+        if (kvPair.length != 2) return;
+        JSObjectWarp formItem = form.get();
+        formItem.set("name", kvPair[0].trim());
+        formItem.set("value", kvPair[1].trim());
         while (matcher.find()) {
-            String[] kvPair = matcher.group().split("=", 2);
+            kvPair = matcher.group().split("=", 2);
             if (kvPair.length != 2) continue;
-            form.get().set(kvPair[0].trim(), kvPair[1].trim());
+            formItem.set(kvPair[0].trim(), kvPair[1].trim());
         }
     }
 

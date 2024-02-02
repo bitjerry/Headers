@@ -30,9 +30,9 @@ public class ExportAction extends AnAction {
 
     private final ScriptsListPanel scriptsListPanel;
 
-    public ExportAction(ScriptsListPanel templateList) {
+    public ExportAction(ScriptsListPanel scriptsListPanel) {
         super(HeadersBundle.message("settings.scripts.export.title"), HeadersBundle.message("settings.scripts.export.description"), AllIcons.ToolbarDecorator.Export);
-        this.scriptsListPanel = templateList;
+        this.scriptsListPanel = scriptsListPanel;
     }
 
     @Override

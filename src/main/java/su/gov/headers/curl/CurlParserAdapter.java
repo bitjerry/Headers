@@ -15,14 +15,13 @@ import su.gov.headers.curl.annotation.CurlOptionHandler;
 import su.gov.headers.curl.annotation.Parser;
 import su.gov.headers.curl.annotation.PostParser;
 import su.gov.headers.curl.annotation.PreParser;
+import su.gov.headers.utils.ArgumentTokenizer;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CurlParserAdapter {
@@ -42,8 +41,6 @@ public class CurlParserAdapter {
             put(PostParser.class, new HashMap<>());
         }
     };
-
-    public static final Pattern COMMAND_PATTERN = Pattern.compile("'((?:[^\\\\']|\\\\.)*)'|\"((?:[^\\\\\"]|\\\\.)*)\"|([^\\s\"']+)");
 
     static {
         Method[] methods = CurlParser.class.getDeclaredMethods();
@@ -96,21 +93,10 @@ public class CurlParserAdapter {
     }
 
 
-    public static CurlObject parse(String curlCommand) throws Exception {
+    public static CurlObject parse(String curlCommand) throws Exception, Error {
         CurlObject curlObject = new CurlObject();
         CurlParser parser = new CurlParser(curlObject);
-        Matcher matcher = COMMAND_PATTERN.matcher(curlCommand);
-        List<String> tokens = new ArrayList<>();
-        while (matcher.find()) {
-            for (int i = 1; i <= matcher.groupCount(); i++) {
-                String capturedGroup = matcher.group(i);
-                if (capturedGroup != null) {
-                    tokens.add(capturedGroup);
-                    break;
-                }
-            }
-
-        }
+        List<String> tokens = ArgumentTokenizer.tokenize(curlCommand);
         handlerCurlOptions(PreParser.class, tokens, parser);
         handlerCurlOptions(Parser.class, tokens, parser);
         handlerCurlOptions(PostParser.class, tokens, parser);

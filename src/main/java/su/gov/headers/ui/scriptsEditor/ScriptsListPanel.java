@@ -14,19 +14,20 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.ui.InputValidatorEx;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.ui.AddEditDeleteListPanel;
+import com.intellij.ui.AddDeleteListPanel;
 import com.intellij.ui.ToolbarDecorator;
 import org.jetbrains.annotations.Nullable;
+import su.gov.headers.HeadersBundle;
 import su.gov.headers.setting.SettingsPersistentState;
 import su.gov.headers.transform.TransformScriptModel;
 import su.gov.headers.ui.SettingsPanel;
-import su.gov.headers.ui.scriptsEditor.scriptsListActions.ExportAction;
-import su.gov.headers.ui.scriptsEditor.scriptsListActions.ImportAction;
+import su.gov.headers.ui.scriptsEditor.scriptsListActions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptModel> {
+public class ScriptsListPanel extends AddDeleteListPanel<TransformScriptModel> {
 
     private final SettingsPanel bindSettingsPanel;
 
@@ -41,23 +42,34 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
                 bindSettingsPanel.getScriptsEditorPanel().disable();
                 return;
             }
-            processSelectedItem(
-                    model -> bindSettingsPanel.getScriptsEditorPanel().setEditorPanel(model)
-            );
+            processSelectedItem(model -> bindSettingsPanel.getScriptsEditorPanel().setEditorPanel(model));
         });
+        new EditAction(this).installOn(myList);
+        new MoveAction(this).installOn(myList);
     }
 
-    public void setItem(TransformScriptModel model) {
+    public void addItem(TransformScriptModel model) {
         myListModel.addElement(model);
+
     }
 
-    public void setItems(List<TransformScriptModel> transformScriptModels) {
+    public void addItems(List<TransformScriptModel> transformScriptModels) {
         myListModel.clear();
         for (TransformScriptModel template : transformScriptModels) {
             myListModel.addElement(template.copy());
         }
     }
 
+    public void insertItem(int index, TransformScriptModel model) {
+        myListModel.insertElementAt(model, index);
+    }
+
+    public TransformScriptModel getItem(int index) {
+        if (index < 0 || index >= myListModel.size()) {
+            return null;
+        }
+        return myListModel.get(index);
+    }
 
     public List<TransformScriptModel> getItems() {
         ArrayList<TransformScriptModel> list = new ArrayList<>();
@@ -67,29 +79,31 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
         return list;
     }
 
-    @FunctionalInterface
-    public interface TransformScriptModelProcessor {
-
-        void process(TransformScriptModel transformModel);
+    public void removeItem(int index) {
+        myListModel.remove(index);
     }
 
-    public void processSelectedItem(TransformScriptModelProcessor processor) {
+    public void setSelectionInterval(int index0, int index1) {
+        myList.getSelectionModel().setSelectionInterval(index0, index1);
+    }
+
+    public void processSelectedItem(Consumer<TransformScriptModel> processor) {
         TransformScriptModel transformScriptModel = getSelectedItem();
         if (transformScriptModel == null) {
             bindSettingsPanel.getScriptsEditorPanel().disable();
         } else {
             bindSettingsPanel.getScriptsEditorPanel().enable();
-            processor.process(transformScriptModel);
+            processor.accept(transformScriptModel);
         }
+    }
+
+    public int getSelectedItemIndex() {
+        return myList.getSelectedIndex();
     }
 
     @Nullable
     public TransformScriptModel getSelectedItem() {
-        int index = myList.getSelectedIndex();
-        if (index == -1) {
-            return null;
-        }
-        return myListModel.get(index);
+        return getItem(getSelectedItemIndex());
     }
 
     public List<TransformScriptModel> getSelectedItems() {
@@ -106,6 +120,7 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
         super.customizeDecorator(decorator);
         DefaultActionGroup group = new DefaultActionGroup();
         group.addSeparator();
+        group.add(new CopyAction(this));
         group.add(new ImportAction(this));
         group.add(new ExportAction(this));
         decorator.setActionGroup(group);
@@ -117,19 +132,14 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
     }
 
 
-    @Override
-    protected @Nullable TransformScriptModel editSelectedItem(TransformScriptModel item) {
-        return showEditDialog(item);
-    }
-
-    private TransformScriptModel showEditDialog(TransformScriptModel model) {
+    public TransformScriptModel showEditDialog(TransformScriptModel model) {
         if (model == null) {
             model = new TransformScriptModel();
         }
         String input = Messages.showInputDialog(
                 this,
-                "Set new template name:",
-                "JavaScript Template",
+                HeadersBundle.message("settings.scripts.edit.dialog.messages"),
+                HeadersBundle.message("settings.scripts.edit.dialog.title"),
                 Messages.getQuestionIcon(),
                 model.getName(),
                 new InputValidatorEx() {
@@ -146,7 +156,7 @@ public class ScriptsListPanel extends AddEditDeleteListPanel<TransformScriptMode
                     @Override
                     public String getErrorText(String inputString) {
                         if (!checkInput(inputString)) {
-                            return "Template name cannot be empty";
+                            return HeadersBundle.message("settings.scripts.edit.dialog.error");
                         }
                         return null;
                     }
