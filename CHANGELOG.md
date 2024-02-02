@@ -2,7 +2,7 @@
 
 ## [Unreleased]
 
-## [2.0.2] - 2024-02-02
+## [2.0.3] - 2024-02-02
 
 - Supports generating code based on curl command
 - Support custom code generation scripts
