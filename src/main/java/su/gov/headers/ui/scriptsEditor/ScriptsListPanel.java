@@ -25,6 +25,7 @@ import su.gov.headers.ui.scriptsEditor.scriptsListActions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class ScriptsListPanel extends AddDeleteListPanel<TransformScriptModel> {
 
@@ -64,7 +65,7 @@ public class ScriptsListPanel extends AddDeleteListPanel<TransformScriptModel> {
     }
 
     public TransformScriptModel getItem(int index) {
-        if (index < 0 || index >= myListModel.size()){
+        if (index < 0 || index >= myListModel.size()) {
             return null;
         }
         return myListModel.get(index);
@@ -78,7 +79,7 @@ public class ScriptsListPanel extends AddDeleteListPanel<TransformScriptModel> {
         return list;
     }
 
-    public void removeItem(int index){
+    public void removeItem(int index) {
         myListModel.remove(index);
     }
 
@@ -86,19 +87,13 @@ public class ScriptsListPanel extends AddDeleteListPanel<TransformScriptModel> {
         myList.getSelectionModel().setSelectionInterval(index0, index1);
     }
 
-    @FunctionalInterface
-    public interface TransformScriptModelProcessor {
-
-        void process(TransformScriptModel transformModel);
-    }
-
-    public void processSelectedItem(TransformScriptModelProcessor processor) {
+    public void processSelectedItem(Consumer<TransformScriptModel> processor) {
         TransformScriptModel transformScriptModel = getSelectedItem();
         if (transformScriptModel == null) {
             bindSettingsPanel.getScriptsEditorPanel().disable();
         } else {
             bindSettingsPanel.getScriptsEditorPanel().enable();
-            processor.process(transformScriptModel);
+            processor.accept(transformScriptModel);
         }
     }
 
