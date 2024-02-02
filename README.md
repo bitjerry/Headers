@@ -58,6 +58,7 @@ Read in other languages: English | [简体中文](./README.zh-CN.md)
 1. Use any editor to write a JavaScript script that must include a globally scoped `transform` function, taking a [curl object](https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/src/main/resources/scripts/test.js) as the only parameter and returning the generated code string.
 2. Open Settings -> Tools -> Headers, add a script to the left script list, and paste the script created earlier into the right editor.
 3. You can now right-click on "headers" in IDEA to see the corresponding code generation script for curl command transformation.
+4. All scripts will be continuously updated in this repository, and you can [click here](https://github.com/bitjerry/Headers/tree/main/src/main/resources/scripts/example) to get more scripts. If you have better suggestions, please submit an issue, and share your script.
 
 ![Custom Script](https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/custom_script.png)
 

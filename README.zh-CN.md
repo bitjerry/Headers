@@ -55,6 +55,7 @@
 1. 使用任意编辑器编写一个 JavaScript 脚本, 必须包括一个全局作用域的 `transform` 函数, 接受一个 [curl 对象](https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/src/main/resources/scripts/test.js) 作为唯一参数, 返回生成的代码字符串
 2. 打开设置 -> 工具 -> headers, 左侧脚本列表添加一个脚本, 在右侧编辑器中粘贴前方写好的脚本
 3. 即可在 IDEA 中右键 headers -> curl 看到对应的代码生成脚本, 转换 curl 命令
+4. 所有脚本将持续在本仓库中更新, 可以 [点击](https://github.com/bitjerry/Headers/tree/main/src/main/resources/scripts/example) 获取更多脚本. 如果你有更好的建议欢迎提 issue, 分享你的脚本.
 
 <p align="center"><img src="https://cdn.jsdelivr.net/gh/bitjerry/Headers@main/images/custom_script.png" alt="screenshots"></p>
 
