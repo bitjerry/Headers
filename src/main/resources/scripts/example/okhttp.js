@@ -1,3 +1,9 @@
+/**
+ * @author Mr.lin
+ * @version 1.0.0
+ *
+ */
+
 function escapeString(input) {
     return `"${input.replaceAll("\"", "\\\\\"")}"`
 }

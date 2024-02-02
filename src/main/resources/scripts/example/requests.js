@@ -1,3 +1,9 @@
+/**
+ * @author Mr.lin
+ * @version 1.0.0
+ *
+ */
+
 function escapeString(input) {
     return `"${input.replaceAll("\"", "\\\\\"")}"`
 }
@@ -6,8 +12,14 @@ function isEmpty(value) {
     return !value || typeof value == 'object' && Object.keys(value).length === 0
 }
 
-function decodeURIData(value) {
-    return typeof value == "string" ? decodeURI(value) : value
+function jsonReplacer(key, value) {
+    if (typeof value == "boolean") {
+        return value ? "true" : "false"
+    } else if (typeof value == "string") {
+        return decodeURI(value)
+    } else {
+        return value
+    }
 }
 
 function transformForm(input) {
@@ -59,7 +71,7 @@ function transform(input) {
     }
 
     if (!isEmpty(input.params)) {
-        pyCode.push(`params = ${JSON.stringify(input.params, (k, v) => decodeURIData(v), 4)}`)
+        pyCode.push(`params = ${JSON.stringify(input.params, jsonReplacer, 4)}`)
         params.push("params = params")
     }
 
@@ -69,12 +81,12 @@ function transform(input) {
                 let body = {}
                 for (let item of input.data.split("&")) {
                     let kv = item.split("=")
-                    body[kv[0]] = decodeURIData(kv[1])
+                    body[kv[0]] = jsonReplacer(undefined, kv[1])
                 }
                 pyCode.push(`data = ${JSON.stringify(body, null, 4)}`)
                 params.push("data = data")
             } else if (input.headers["content-type"].indexOf("json") !== -1) {
-                pyCode.push(`json = ${JSON.stringify(JSON.parse(input.data), (k, v) => decodeURIData(v), 4)}`)
+                pyCode.push(`json = ${JSON.stringify(JSON.parse(input.data), jsonReplacer, 4)}`)
                 params.push(`json = json`)
             } else {
                 pyCode.push(`data = ${escapeString(input.data)}`)
