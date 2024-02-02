@@ -2,12 +2,14 @@
 
 ## [Unreleased]
 
+## [2.0.3] - 2024-02-2
+
 - Supports generating code based on curl command
 - Support custom code generation scripts
 - 支持根据curl命令生成代码
 - 支持自定义代码生成脚本
 
-## [1.0.4] - 2023-12-4
+## [1.0.4] - 2023-12-04
 
 - Fixed confusion of the request head format
 - 修复格式识别混乱
