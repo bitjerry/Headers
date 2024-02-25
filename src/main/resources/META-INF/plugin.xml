@@ -6,7 +6,7 @@
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
-    <depends config-file="action-group.xml">com.intellij.modules.lang</depends>
+    <depends optional="true" config-file="action-group.xml">com.intellij.modules.lang</depends>
 
     <resource-bundle>messages.HeadersBundle</resource-bundle>
 
