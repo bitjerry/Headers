@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Fix some errors in script
+- 修复脚本一些错误
+
 ## [2.0.3] - 2024-02-2
 
 - Supports generating code based on curl command

@@ -1,6 +1,6 @@
 /**
  * @author Mr.lin
- * @version 1.0.0
+ * @version 1.0.1
  *
  */
 
@@ -16,7 +16,7 @@ function jsonReplacer(key, value) {
     if (typeof value == "boolean") {
         return value ? "true" : "false"
     } else if (typeof value == "string") {
-        return decodeURI(value)
+        return decodeURIComponent(value)
     } else {
         return value
     }
