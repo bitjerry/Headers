@@ -1,6 +1,6 @@
 /**
  * @author Mr.lin
- * @version 1.0.1
+ * @version 1.0.2
  *
  */
 
@@ -78,8 +78,8 @@ function transform(input) {
                 pyCode.push(`data = ${JSON.stringify(body, null, 4)}`)
                 params.push("data = data")
             } else if (input.headers["content-type"].indexOf("json") !== -1) {
-                pyCode.push(`json = ${JSON.stringify(JSON.parse(input.data), jsonReplacer, 4)}`)
-                params.push(`json = json`)
+                pyCode.push(`json_data = ${JSON.stringify(JSON.parse(input.data), jsonReplacer, 4)}`)
+                params.push(`json = json_data`)
             } else {
                 pyCode.push(`data = ${escapeString(input.data)}`)
                 params.push("data = data")
@@ -95,4 +95,3 @@ function transform(input) {
     async with session.${input.method.toLowerCase()}(${params.join(",")}, ssl=False) as res:
         print(await res.text())`
 }
-

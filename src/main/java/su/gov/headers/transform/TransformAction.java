@@ -34,6 +34,11 @@ public abstract class TransformAction extends AnAction implements Transform {
     private static final Logger LOGGER = Logger.getInstance(TransformAction.class);
 
     @Override
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
+    }
+
+    @Override
     public void update(@NotNull AnActionEvent e) {
         project = e.getRequiredData(CommonDataKeys.PROJECT);
         editor = e.getRequiredData(CommonDataKeys.EDITOR);
